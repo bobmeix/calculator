@@ -71,7 +71,7 @@ button {
 .row {
     display: flex;
     width: 100%;
-    height: 20%;
+    height: 16.67%;
 }
 
 .row-button {
@@ -83,18 +83,20 @@ button {
 #multiply,
 #subtract,
 #add,
+#percent,
 #back {
     font-size: 30px;
     background-color: rgb(218, 218, 218);
 }
 
-#plus-minus,
+#reverse-sign,
 #decimal {
     font-size: 30px;
 }
 
 #all-clear,
-#clear-entry {
+#clear-entry,
+#exponentiate {
     background-color: rgb(218, 218, 218);
 }
 
@@ -103,14 +105,16 @@ button {
 #subtract:hover,
 #add:hover,
 #back:hover,
-#plus-minus:hover,
+#percent:hover,
+#reverse-sign:hover,
 #decimal:hover {
     font-size: 36px;
     background-color: rgb(201, 201, 201);
 }
 
 #all-clear:hover,
-#clear-entry:hover {
+#clear-entry:hover,
+#exponentiate:hover {
     font-size: 24px;
     background-color: rgb(201, 201, 201);
 }
@@ -134,14 +138,16 @@ button {
 #subtract:active,
 #add:active,
 #back:active,
-#plus-minus:active,
+#percent:active,
+#reverse-sign:active,
 #decimal:active {
     font-size: 40px;
     background-color: rgb(180, 180, 180);
 }
 
 #all-clear:active,
-#clear-entry:active {
+#clear-entry:active,
+#exponentiate:active {
     font-size: 26px;
     background-color: rgb(180, 180, 180);
 }
@@ -176,6 +182,6 @@ button {
 }
 
 #back,
-#plus-minus {
+#reverse-sign {
     padding-bottom: 6px;
 }
