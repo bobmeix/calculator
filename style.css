@@ -109,3 +109,8 @@ button {
     font-size: 40px;
     background-color: rgb(0, 99, 177);
 }
+
+#back,
+#plus-minus {
+    padding-bottom: 6px;
+}
