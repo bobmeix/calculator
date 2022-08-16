@@ -28,6 +28,10 @@ function exponentiate(base, ...exponents) {
     return result;
 }
 
+function reverseSign(number) {
+    return -number;
+}
+
 function operate (operator, ...numbers) {
     return operator(...numbers);
 }
@@ -43,3 +47,4 @@ console.log(operate(subtract, 3, 2));
 console.log(operate(multiply, 3, 2));
 console.log(operate(divide, 3, 2));
 console.log(operate(exponentiate, 3, 2));
+console.log(operate(reverseSign, -2))

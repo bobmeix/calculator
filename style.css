@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne+Mono&display=swap');
 
-* {box-sizing: border-box;}
+* {
+    font-family: 'Share Tech Mono', monospace;
+    box-sizing: border-box;
+}
 
 body {
     display: flex;
@@ -15,7 +18,6 @@ body {
 button {
     width: 100%;
     height: 100%;
-    font-family: 'Share Tech Mono', monospace;
     font-size: 20px;
 }
 
@@ -25,23 +27,52 @@ button {
     background-color: rgb(250, 250, 250);
 }
 
-.display {
+.display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 25%;
     border: 2px solid rgb(190, 190, 190);
+    background-color: rgb(190, 190, 190);
+}
+
+.display {
+    width: 98%;
+    height: 98%;
+    border: 2px solid rgb(190, 190, 190);
+    background-color: rgb(242, 242, 242);
+}
+
+.display-top {
+    height: 40%;
+    font-size: 27px;
+}
+
+.display-bottom {
+    height: 60%;
+    font-size: 40px;
+}
+
+.display-top, .display-bottom {
+    display: flex;
+    justify-content:flex-end;
+    align-items: center;
+    border: 1px solid black;
 }
 
 .buttons {
     width: 100%;
     height: 75%;
     border: 3px solid rgb(190, 190, 190);
+    border-top: 0;
 }
 
 .row {
     display: flex;
     width: 100%;
     height: 20%;
-    background-color: rgb(242, 242, 242);
+    /* background-color: rgb(242, 242, 242); */
     /* border: 1px solid rgb(190, 190, 190); */
 }
 
@@ -55,10 +86,20 @@ button {
 #multiply,
 #subtract,
 #add,
-#back,
+#back {
+    font-size: 30px;
+    background-color: rgb(218, 218, 218);
+}
+
 #plus-minus,
 #decimal {
     font-size: 30px;
+    background-color: rgb(242, 242, 242);
+}
+
+#all-clear,
+#clear-entry {
+    background-color: rgb(218, 218, 218);
 }
 
 #divide:hover,
@@ -78,6 +119,20 @@ button {
     background-color: rgb(201, 201, 201);
 }
 
+#zero:hover,
+#one:hover,
+#two:hover,
+#three:hover,
+#four:hover,
+#five:hover,
+#six:hover,
+#seven:hover,
+#eight:hover,
+#nine:hover {
+    font-size: 24px;
+    background-color: rgb(225, 225, 225);
+}
+
 #divide:active,
 #multiply:active,
 #subtract:active,
@@ -93,6 +148,20 @@ button {
 #clear-entry:active {
     font-size: 26px;
     background-color: rgb(180, 180, 180);
+}
+
+#zero:active,
+#one:active,
+#two:active,
+#three:active,
+#four:active,
+#five:active,
+#six:active,
+#seven:active,
+#eight:active,
+#nine:active {
+    font-size: 26px;
+    background-color: rgb(204, 204, 204);
 }
 
 #equal {
