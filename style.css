@@ -20,14 +20,15 @@ button {
 }
 
 .calculator {
-    width: 400px;
-    height: 600px;
+    width: 380px;
+    height: 570px;
     background-color: rgb(250, 250, 250);
 }
 
 .display {
     width: 100%;
     height: 25%;
+    border: 2px solid rgb(190, 190, 190);
 }
 
 .buttons {
