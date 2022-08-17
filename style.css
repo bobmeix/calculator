@@ -20,6 +20,7 @@ button {
     height: 100%;
     font-size: 20px;
     padding: 0;
+    background-color: rgb(250, 250, 250);
     border: 1px solid rgb(192, 192, 192);
 }
 
@@ -142,7 +143,7 @@ button:active {
 #eight:hover,
 #nine:hover {
     font-size: 24px;
-    background-color: rgb(225, 225, 225);
+    background-color: rgb(235, 235, 235);
 }
 
 #divide:active,
@@ -154,14 +155,14 @@ button:active {
 #reverse-sign:active,
 #decimal:active {
     font-size: 40px;
-    background-color: rgb(180, 180, 180);
+    background-color: rgb(180, 190, 180);
 }
 
 #all-clear:active,
 #clear-entry:active,
 #exponentiate:active {
     font-size: 26px;
-    background-color: rgb(180, 180, 180);
+    background-color: rgb(180, 190, 180);
 }
 
 #zero:active,
@@ -175,7 +176,7 @@ button:active {
 #eight:active,
 #nine:active {
     font-size: 26px;
-    background-color: rgb(204, 204, 204);
+    background-color: rgb(220, 230, 220);
 }
 
 #equal {
