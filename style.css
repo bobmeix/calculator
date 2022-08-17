@@ -38,9 +38,9 @@ button {
 }
 
 .display {
-    width: 98%;
-    height: 98%;
-    border: 2px solid rgb(190, 190, 190);
+    width: 99.3%;
+    height: 99%;
+    border: 1px solid rgb(128, 128, 128);
     background-color: rgb(242, 242, 242);
 }
 
