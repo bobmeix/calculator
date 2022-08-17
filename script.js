@@ -36,7 +36,7 @@ function raiseTwoToPower(...exponents) {
 
 function calculateNthRoot(radicand, ...degrees) {
     let result = radicand;
-    degrees.forEach(radicand => result = exponentiate(result, 1 / radicand));
+    degrees.forEach(degree => result = exponentiate(result, 1 / degree));
     return result;
 }
 
@@ -61,4 +61,4 @@ console.log(operate(divide, 3, 2));
 console.log(operate(exponentiate, '-3', 3, 3));
 console.log(operate(reverseSign, '-2'))
 console.log(operate(raiseTwoToPower, '-2', '-4'));
-console.log(operate(calculateNthRoot, '256', '2', '4', '2'));
+console.log(operate(calculateNthRoot, '81', 2, 3, 2));
