@@ -1,60 +1,101 @@
+window.addEventListener('keydown', addKeyboardNumber);
 const displayBottom = document.querySelector('.display-bottom');
 const displayTop = document.querySelector('.display-top');
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(numberButton => {
-    numberButton.addEventListener('click', readNumberButtonValue);
+    numberButton.addEventListener('click', addMouseNumber);
 })
 const controlButtons = document.querySelectorAll('.control');
 controlButtons.forEach(controlButton => {
-    controlButton.addEventListener('click', readControlButtonValue);
+    controlButton.addEventListener('click', getMouseControlValue);
 })
 const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(operatorButton => {
-    operatorButton.addEventListener('click', readOperatorButtonValue);
+    operatorButton.addEventListener('click', getMouseOperatorValue);
 })
 const equalButton = document.querySelector('.equal');
-equalButton.addEventListener('click', readEqualButtonValue);
+equalButton.addEventListener('click', getMouseEqualValue);
 
 let displayBottomValue;
+let displayTopValue;
 
 function reduceDisplayBottomFontSize() {
-    if (displayBottom.textContent.length >= 34) {
-        numberButtons.forEach(numberButton => {
-            numberButton.removeEventListener('click', readNumberButtonValue);
-        })
-    } else if (displayBottom.textContent.length > 23) {
+    if (displayBottom.textContent.length > 23) {
         displayBottom.setAttribute('style', 'font-size: 20px');
     } else if (displayBottom.textContent.length > 17) {
         displayBottom.setAttribute('style', `font-size: 29.5px`);
     }
 }
 
-function readNumberButtonValue(e) {
-    if (displayBottom.textContent === '0') {
-        displayBottom.textContent = e.target.innerText;
-    } else if (displayBottom.textContent !== '0') {
-        displayBottom.textContent += e.target.innerText;
-    } 
+function addMouseNumber(number) {
+    if (displayBottom.textContent.length >= 34) return;
     
-    if (e.target.id === 'decimal') {
-        e.target.removeEventListener('click', readNumberButtonValue);
+    if (displayBottom.textContent === '0' && getMouseNumberValue(number) !== '.') {
+        displayBottom.textContent = getMouseNumberValue(number);
+    } else if (displayBottom.textContent !== '0' && getMouseNumberValue(number) !== '.') {
+        displayBottom.textContent += getMouseNumberValue(number);
+    } else if (displayBottom.textContent.includes('.')) {
+        return;
+    } else if (getMouseNumberValue(number) === '.') {
+        console.log('right elseif');
+        displayBottom.textContent += '.';
     }
-
-    console.log(e.target.innerText, `length: ${displayBottom.innerText.length}`);
+    let displayBottomValue = displayBottom.textContent;
+    console.log(getMouseNumberValue(number), `length: ${displayBottom.innerText.length}`);
+    console.log(displayBottomValue);
 
     reduceDisplayBottomFontSize();
+    //return e.target.innerText;
+}
+
+function addKeyboardNumber(number) {
+    if (displayBottom.textContent.length >= 34) return;
+    
+    if (displayBottom.textContent === '0' && getKeyboardNumberValue(number) !== '.') {
+        displayBottom.textContent = getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '0';
+    } else if (displayBottom.textContent !== '0' && getKeyboardNumberValue(number) !== '.') {
+        console.log('wrong elseif');
+        displayBottom.textContent += getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '';
+    } else if (displayBottom.textContent.includes('.')) {
+        return;
+    } else if (getKeyboardNumberValue(number) === '.') {
+        console.log('right elseif');
+        displayBottom.textContent += '.';
+    }
+
+        // if (getKeyboardNumberValue(number) === '.') {
+    //     console.log(number.target);
+    // }
+
+    let displayBottomValue = displayBottom.textContent;
+    console.log(getKeyboardNumberValue(number), `length: ${displayBottom.innerText.length}`);
+    console.log(displayBottomValue);
+
+    reduceDisplayBottomFontSize();
+    //return e.target.innerText;
+}
+
+
+function getMouseNumberValue(e) {
     return e.target.innerText;
 }
 
-function readControlButtonValue(e) {
+function getKeyboardNumberValue(e) {
+    if ((e.key >= 0 && e.key <= 9) || e.key === ".") {
+        console.log(e.key);
+        return e.key;
+    }
+}
+
+function getMouseControlValue(e) {
     console.log(e.target.innerText);
 }
 
-function readOperatorButtonValue(e) {
+function getMouseOperatorValue(e) {
     console.log(e.target.innerText);
 }
 
-function readEqualButtonValue(e) {
+function getMouseEqualValue(e) {
     console.log(e.target.innerText);
 }
 
