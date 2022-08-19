@@ -1,4 +1,5 @@
 window.addEventListener('keydown', addKeyboardNumber);
+window.addEventListener('keydown', getKeyboardControlValue);
 const displayBottom = document.querySelector('.display-bottom');
 const displayTop = document.querySelector('.display-top');
 const numberButtons = document.querySelectorAll('.number');
@@ -14,7 +15,7 @@ operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener('click', executeOperation);
 })
 const equalButton = document.querySelector('.equal');
-equalButton.addEventListener('click', getMouseEqualValue);
+equalButton.addEventListener('click', executeOperation);
 
 const operatorsAndValues = {
     add(...numbers) {
@@ -65,8 +66,10 @@ const operatorsAndValues = {
     resultCurrent: 0,
     resultPrevious: 0,
 
-    operatorCurrent: '',
-    operatorPrevious: '',
+    operatorCurrent: null,
+    operatorPrevious: null,
+
+    operatorSymbol: '',
 };
 
 
@@ -75,6 +78,8 @@ function reduceDisplayBottomFontSize() {
         displayBottom.setAttribute('style', 'font-size: 20px');
     } else if (displayBottom.textContent.length > 17) {
         displayBottom.setAttribute('style', `font-size: 29.5px`);
+    } else {
+        displayBottom.setAttribute('style', `font-size: 40px`);
     }
 }
 
@@ -137,50 +142,27 @@ function addKeyboardNumber(number) {
 }
 
 function executeOperation(operator) {
-    operatorsAndValues.operatorCurrent = getMouseOperatorValue(operator);
+    operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
+    console.log('yes');
+    console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
+    console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
 
-    switch (operatorsAndValues.operatorCurrent) {
-        case 'add':
-            console.log('yes');
-            console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
-            console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
+    operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
+        operatorsAndValues.resultPrevious,
+        operatorsAndValues.displayBottomValueCurrent)
+    displayBottom.textContent = operatorsAndValues.resultCurrent;
+    displayTop.textContent = `${operatorsAndValues.resultCurrent} ${operatorsAndValues.operatorSymbol}`;
 
-            operatorsAndValues.resultCurrent = operate(operatorsAndValues.add,
-                operatorsAndValues.resultPrevious,
-                operatorsAndValues.displayBottomValueCurrent)
-            displayBottom.textContent = operatorsAndValues.resultCurrent;
-            displayTop.textContent = `${operatorsAndValues.resultCurrent} +`;
+    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
+    operatorsAndValues.resultCurrent = 0;
 
-            operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
-            operatorsAndValues.resultCurrent = 0;
+    console.log('currentResult ' + operatorsAndValues.resultCurrent);
+    console.log('previousResult ' + operatorsAndValues.resultPrevious);
 
-            console.log('currentResult ' + operatorsAndValues.resultCurrent);
-            console.log('previousResult ' + operatorsAndValues.resultPrevious);
-
-            break;
-        case 'subtract':
-            console.log('yes');
-            console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
-            console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
-
-            operatorsAndValues.resultCurrent = operate(operatorsAndValues.subtract,
-                operatorsAndValues.resultPrevious,
-                operatorsAndValues.displayBottomValueCurrent)
-            displayBottom.textContent = operatorsAndValues.resultCurrent;
-            displayTop.textContent = `${operatorsAndValues.resultCurrent} -`;
-
-            operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
-            operatorsAndValues.resultCurrent = 0;
-
-            console.log('currentResult ' + operatorsAndValues.resultCurrent);
-            console.log('previousResult ' + operatorsAndValues.resultPrevious);
-
-            break;
-    }
     operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
-    operatorsAndValues.operatorCurrent = '';
-    
+    operatorsAndValues.operatorCurrent = null;
+
     operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
     operatorsAndValues.displayBottomValueCurrent = 0;
 }
@@ -197,20 +179,79 @@ function getKeyboardNumberValue(e) {
 }
 
 function getMouseControlValue(e) {
-    console.log(e.target.innerText);
-}
-
-function getMouseOperatorValue(e) {
     console.log(e.target.id);
-    return e.target.id;
+    if (e.target.id === 'all-clear') clearAll();
+    if (e.target.id === 'clear-entry') clearEntry();
+    if (e.target.id === 'back') back();
 }
 
-function getMouseEqualValue(e) {
-    console.log(e.target.innerText);
+function getKeyboardControlValue(e) {
+    if (e.key === 'Backspace') back();
+    if (e.key === 'Delete') clearEntry();
+    if (e.key === 'Escape') clearAll();
+}
+
+function getMouseOperator(e) {
+    console.log(e.target.id);
+
+    switch (e.target.id) {
+        case 'add':
+            console.log(operatorsAndValues.add);
+            operatorsAndValues.operatorSymbol = '+';
+            return operatorsAndValues.add;
+        case 'subtract':
+            console.log(operatorsAndValues.subtract);
+            operatorsAndValues.operatorSymbol = '-';
+            return operatorsAndValues.subtract;
+        case 'multiply':
+            operatorsAndValues.operatorSymbol = '×';
+            console.log(operatorsAndValues.multiply);
+            return operatorsAndValues.multiply;
+        case 'divide':
+            operatorsAndValues.operatorSymbol = '÷';
+            console.log(operatorsAndValues.divide);
+            return operatorsAndValues.divide;
+    }
 }
 
 function operate(operator, ...numbers) {
     return operator(...numbers);
+}
+
+function clearAll() {
+    displayBottom.textContent = '0';
+    displayBottom.setAttribute('style', `font-size: 40px`);
+    displayTop.textContent = '';
+
+    operatorsAndValues.displayBottomValueCurrent = 0;
+    operatorsAndValues.displayBottomValuePrevious = 0;
+    operatorsAndValues.displayTopValue = 0;
+
+    operatorsAndValues.resultCurrent = 0;
+    operatorsAndValues.resultPrevious = 0;
+
+    operatorCurrent = null;
+    operatorPrevious = null;
+
+    operatorSymbol = '';
+}
+
+function clearEntry() {
+    displayBottom.textContent = '0';
+    displayBottom.setAttribute('style', `font-size: 40px`);
+    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+}
+
+function back() {
+    reduceDisplayBottomFontSize();
+    if (displayBottom.textContent.length === 1) {
+        displayBottom.textContent = '0';
+        displayBottom.setAttribute('style', `font-size: 40px`);
+        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        return;
+    }
+    displayBottom.textContent = displayBottom.textContent.slice(0, -1);
+    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 }
 
 // console.log(add(6, 10.8, 3.2));
