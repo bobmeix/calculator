@@ -76,7 +76,7 @@ const operatorsAndValues = {
 function reduceDisplayBottomFontSize() {
     if (displayBottom.textContent.length > 23) {
         displayBottom.setAttribute('style', 'font-size: 20px');
-    } else if (displayBottom.textContent.length > 17) {
+    } else if (displayBottom.textContent.length > 17  || displayBottom.textContent.includes('e')) {
         displayBottom.setAttribute('style', `font-size: 29.5px`);
     } else {
         displayBottom.setAttribute('style', `font-size: 40px`);
@@ -165,6 +165,8 @@ function executeOperation(operator) {
 
     operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
     operatorsAndValues.displayBottomValueCurrent = 0;
+
+    reduceDisplayBottomFontSize();
 }
 
 function getMouseNumberValue(e) {
