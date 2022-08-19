@@ -1,21 +1,23 @@
 window.addEventListener('keydown', addKeyboardNumber);
 window.addEventListener('keydown', getKeyboardControlValue);
+
 const displayBottom = document.querySelector('.display-bottom');
 const displayTop = document.querySelector('.display-top');
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(numberButton => {
-    numberButton.addEventListener('click', addMouseNumber);
+    numberButton.addEventListener('mousedown', addMouseNumber);
 })
 const controlButtons = document.querySelectorAll('.control');
 controlButtons.forEach(controlButton => {
-    controlButton.addEventListener('click', getMouseControlValue);
+    controlButton.addEventListener('mousedown', getMouseControlValue);
 })
 const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(operatorButton => {
-    operatorButton.addEventListener('click', executeOperation);
+    operatorButton.addEventListener('mousedown', executeOperation);
 })
 const equalButton = document.querySelector('.equal');
-equalButton.addEventListener('click', executeOperation);
+equalButton.addEventListener('mousedown', executeOperation);
+
 
 const operatorsAndValues = {
     add(...numbers) {
@@ -76,7 +78,7 @@ const operatorsAndValues = {
 function reduceDisplayBottomFontSize() {
     if (displayBottom.textContent.length > 23) {
         displayBottom.setAttribute('style', 'font-size: 20px');
-    } else if (displayBottom.textContent.length > 17  || displayBottom.textContent.includes('e')) {
+    } else if (displayBottom.textContent.length > 17 || displayBottom.textContent.includes('e')) {
         displayBottom.setAttribute('style', `font-size: 29.5px`);
     } else {
         displayBottom.setAttribute('style', `font-size: 40px`);
@@ -144,15 +146,21 @@ function addKeyboardNumber(number) {
 function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
-    console.log('yes');
     console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
     console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
 
-    operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
-        operatorsAndValues.resultPrevious,
-        operatorsAndValues.displayBottomValueCurrent)
-    displayBottom.textContent = operatorsAndValues.resultCurrent;
-    displayTop.textContent = `${operatorsAndValues.resultCurrent} ${operatorsAndValues.operatorSymbol}`;
+    if (operator.target.id === 'raise-two-to-power') {
+        operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
+            operatorsAndValues.displayBottomValueCurrent)
+        displayBottom.textContent = operatorsAndValues.resultCurrent;
+        displayTop.textContent = `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
+    }
+
+    // operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
+    //     operatorsAndValues.resultPrevious,
+    //     operatorsAndValues.displayBottomValueCurrent)
+    // displayBottom.textContent = operatorsAndValues.resultCurrent;
+    // displayTop.textContent = `${operatorsAndValues.resultCurrent} ${operatorsAndValues.operatorSymbol}`;
 
     operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
     operatorsAndValues.resultCurrent = 0;
@@ -213,6 +221,14 @@ function getMouseOperator(e) {
             operatorsAndValues.operatorSymbol = '÷';
             console.log(operatorsAndValues.divide);
             return operatorsAndValues.divide;
+        case 'exponentiate':
+            operatorsAndValues.operatorSymbol = '^';
+            console.log(operatorsAndValues.exponentiate);
+            return operatorsAndValues.exponentiate;
+        case 'raise-two-to-power':
+            operatorsAndValues.operatorSymbol = '2 ^';
+            console.log(operatorsAndValues.raiseTwoToPower);
+            return operatorsAndValues.raiseTwoToPower;
     }
 }
 
@@ -269,5 +285,5 @@ console.log(operate(operatorsAndValues.divide, '3', 4));
 console.log(operate(operatorsAndValues.exponentiate, '-3', 3, 3));
 console.log(operate(operatorsAndValues.reverseSign, '-2'))
 console.log(operate(operatorsAndValues.raiseTwoToPower, '-3', '-3'));
-console.log(Math.round(operate(operatorsAndValues.calculateNthRoot, '64', 3)));
+console.log((operate(operatorsAndValues.calculateNthRoot, '64', 3)));
 console.log(operate(operatorsAndValues.calculatePercent, '25'));
