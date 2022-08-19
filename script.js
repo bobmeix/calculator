@@ -11,13 +11,64 @@ controlButtons.forEach(controlButton => {
 })
 const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(operatorButton => {
-    operatorButton.addEventListener('click', getMouseOperatorValue);
+    operatorButton.addEventListener('click', executeOperation);
 })
 const equalButton = document.querySelector('.equal');
 equalButton.addEventListener('click', getMouseEqualValue);
 
-let displayBottomValue;
-let displayTopValue;
+const operatorsAndValues = {
+    add(...numbers) {
+        let result = 0;
+        numbers.forEach(number => result += +number);
+        return result;
+    },
+    subtract(number, ...numbers) {
+        let result = +number;
+        numbers.forEach(number => result -= +number);
+        return result;
+    },
+    multiply(...numbers) {
+        let result = 1;
+        numbers.forEach(number => result *= +number);
+        return result;
+    },
+    divide(number, ...numbers) {
+        let result = +number;
+        numbers.forEach(number => result /= +number);
+        return result;
+    },
+    exponentiate(base, ...exponents) {
+        let result = +base;
+        exponents.forEach(number => result **= +number);
+        return result;
+    },
+    raiseTwoToPower(...exponents) {
+        let result = 2;
+        exponents.forEach(exponent => result = operatorsAndValues.exponentiate(result, exponent));
+        return result;
+    },
+    calculateNthRoot(radicand, ...degrees) {
+        let result = +radicand;
+        degrees.forEach(degree => result = operatorsAndValues.exponentiate(result, 1 / degree));
+        return result;
+    },
+    reverseSign(number) {
+        return -number;
+    },
+    calculatePercent(number) {
+        return +number / 100;
+    },
+    displayBottomValueCurrent: 0,
+    displayBottomValuePrevious: 0,
+    displayTopValue: 0,
+
+    resultCurrent: 0,
+    resultPrevious: 0,
+
+    operatorCurrent: '',
+    operatorPrevious: '',
+};
+
 
 function reduceDisplayBottomFontSize() {
     if (displayBottom.textContent.length > 23) {
@@ -27,9 +78,12 @@ function reduceDisplayBottomFontSize() {
     }
 }
 
+
 function addMouseNumber(number) {
     if (displayBottom.textContent.length >= 34) return;
-    
+
+    displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
+
     if (displayBottom.textContent === '0' && getMouseNumberValue(number) !== '.') {
         displayBottom.textContent = getMouseNumberValue(number);
     } else if (displayBottom.textContent !== '0' && getMouseNumberValue(number) !== '.') {
@@ -40,9 +94,14 @@ function addMouseNumber(number) {
         console.log('right elseif');
         displayBottom.textContent += '.';
     }
-    let displayBottomValue = displayBottom.textContent;
+    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+
+
+
     console.log(getMouseNumberValue(number), `length: ${displayBottom.innerText.length}`);
-    console.log(displayBottomValue);
+    // console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
+    // console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
+
 
     reduceDisplayBottomFontSize();
     //return e.target.innerText;
@@ -50,7 +109,9 @@ function addMouseNumber(number) {
 
 function addKeyboardNumber(number) {
     if (displayBottom.textContent.length >= 34) return;
-    
+
+    displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
+
     if (displayBottom.textContent === '0' && getKeyboardNumberValue(number) !== '.') {
         displayBottom.textContent = getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '0';
     } else if (displayBottom.textContent !== '0' && getKeyboardNumberValue(number) !== '.') {
@@ -63,18 +124,66 @@ function addKeyboardNumber(number) {
         displayBottom.textContent += '.';
     }
 
-        // if (getKeyboardNumberValue(number) === '.') {
+    // if (getKeyboardNumberValue(number) === '.') {
     //     console.log(number.target);
     // }
 
-    let displayBottomValue = displayBottom.textContent;
+    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
     console.log(getKeyboardNumberValue(number), `length: ${displayBottom.innerText.length}`);
-    console.log(displayBottomValue);
+    console.log(operatorsAndValues.displayBottomValue);
 
     reduceDisplayBottomFontSize();
     //return e.target.innerText;
 }
 
+function executeOperation(operator) {
+    operatorsAndValues.operatorCurrent = getMouseOperatorValue(operator);
+
+
+    switch (operatorsAndValues.operatorCurrent) {
+        case 'add':
+            console.log('yes');
+            console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
+            console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
+
+            operatorsAndValues.resultCurrent = operate(operatorsAndValues.add,
+                operatorsAndValues.resultPrevious,
+                operatorsAndValues.displayBottomValueCurrent)
+            displayBottom.textContent = operatorsAndValues.resultCurrent;
+            displayTop.textContent = `${operatorsAndValues.resultCurrent} +`;
+
+            operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
+            operatorsAndValues.resultCurrent = 0;
+
+            console.log('currentResult ' + operatorsAndValues.resultCurrent);
+            console.log('previousResult ' + operatorsAndValues.resultPrevious);
+
+            break;
+        case 'subtract':
+            console.log('yes');
+            console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
+            console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
+
+            operatorsAndValues.resultCurrent = operate(operatorsAndValues.subtract,
+                operatorsAndValues.resultPrevious,
+                operatorsAndValues.displayBottomValueCurrent)
+            displayBottom.textContent = operatorsAndValues.resultCurrent;
+            displayTop.textContent = `${operatorsAndValues.resultCurrent} -`;
+
+            operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
+            operatorsAndValues.resultCurrent = 0;
+
+            console.log('currentResult ' + operatorsAndValues.resultCurrent);
+            console.log('previousResult ' + operatorsAndValues.resultPrevious);
+
+            break;
+    }
+    operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
+    operatorsAndValues.operatorCurrent = '';
+    
+    operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
+    operatorsAndValues.displayBottomValueCurrent = 0;
+}
 
 function getMouseNumberValue(e) {
     return e.target.innerText;
@@ -92,61 +201,12 @@ function getMouseControlValue(e) {
 }
 
 function getMouseOperatorValue(e) {
-    console.log(e.target.innerText);
+    console.log(e.target.id);
+    return e.target.id;
 }
 
 function getMouseEqualValue(e) {
     console.log(e.target.innerText);
-}
-
-function add(...numbers) {
-    let result = 0;
-    numbers.forEach(number => result += +number);
-    return result;
-}
-
-function subtract(number, ...numbers) {
-    let result = +number;
-    numbers.forEach(number => result -= +number);
-    return result;
-}
-
-function multiply(...numbers) {
-    let result = 1;
-    numbers.forEach(number => result *= +number);
-    return result;
-}
-
-function divide(number, ...numbers) {
-    let result = +number;
-    numbers.forEach(number => result /= +number);
-    return result;
-}
-
-function exponentiate(base, ...exponents) {
-    let result = +base;
-    exponents.forEach(number => result **= +number);
-    return result;
-}
-
-function raiseTwoToPower(...exponents) {
-    let result = 2;
-    exponents.forEach(exponent => result = exponentiate(result, exponent));
-    return result;
-}
-
-function calculateNthRoot(radicand, ...degrees) {
-    let result = +radicand;
-    degrees.forEach(degree => result = exponentiate(result, 1 / degree));
-    return result;
-}
-
-function reverseSign(number) {
-    return -number;
-}
-
-function calculatePercent(number) {
-    return +number / 100;
 }
 
 function operate(operator, ...numbers) {
@@ -159,12 +219,12 @@ function operate(operator, ...numbers) {
 // console.log(add(2, multiply(10, divide(2))));
 // console.log(exponentiate(2, 4));
 
-console.log(operate(add, 3, 2));
-console.log(operate(subtract, 3, 2));
-console.log(operate(multiply, 3, 2, 2));
-console.log(operate(divide, '3', 4));
-console.log(operate(exponentiate, '-3', 3, 3));
-console.log(operate(reverseSign, '-2'))
-console.log(operate(raiseTwoToPower, '-2', '-4'));
-console.log(operate(calculateNthRoot, '81', 2, 3, 2));
-console.log(operate(calculatePercent, '25'));
+console.log(operate(operatorsAndValues.add, 3, 2));
+console.log(operate(operatorsAndValues.subtract, 3, 2));
+console.log(operate(operatorsAndValues.multiply, 3, 2, 2));
+console.log(operate(operatorsAndValues.divide, '3', 4));
+console.log(operate(operatorsAndValues.exponentiate, '-3', 3, 3));
+console.log(operate(operatorsAndValues.reverseSign, '-2'))
+console.log(operate(operatorsAndValues.raiseTwoToPower, '-3', '-3'));
+console.log(Math.round(operate(operatorsAndValues.calculateNthRoot, '64', 3)));
+console.log(operate(operatorsAndValues.calculatePercent, '25'));
