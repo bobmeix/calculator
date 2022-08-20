@@ -88,6 +88,8 @@ function reduceDisplayBottomFontSize() {
 function reduceDisplayTopFontSize() {
     if (displayTop.textContent.length > 34) {
         displayTop.setAttribute('style', 'font-size: 17px');
+    } else {
+        displayTop.setAttribute('style', `font-size: 20px`);
     }
 }
 
@@ -155,18 +157,32 @@ function executeOperation(operator) {
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
         operator.target.id === 'multiply' ||
-        operator.target.id === 'divide') {
-        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
-        displayTop.textContent = `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} `;
+        operator.target.id === 'divide' ||
+        operator.target.id === 'calculate-nth-root' ||
+        operator.target.id === 'degree-n' ||
+        operator.target.id === 'radicand-x' ||
+        operator.target.id === 'exponentiate' ||
+        operator.target.id === 'exponent-n') {
+            operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
+            operator.target.id === 'degree-n' ||
+            operator.target.id === 'radicand-x' ?
+            `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =` :
+            `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} `;
         updateDisplayBottomValue();
     }
 
-    if (operator.target.id === 'raise-two-to-power' || operator.target.id === 'exponent-X') {
+    if (operator.target.id === 'raise-two-to-power' ||
+        operator.target.id === 'exponent-X' ||
+        operator.target.id === 'reverse-sign' ||
+        operator.target.id === 'percent') {
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
         displayBottom.textContent = operatorsAndValues.resultCurrent;
-        displayTop.textContent = `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
+        displayTop.textContent = operator.target.id === 'percent' ?
+            `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} =` :
+            `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
         operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
 
         console.log('current Operator: ' + operatorsAndValues.operatorCurrent);
@@ -233,6 +249,10 @@ function getMouseOperator(e) {
             operatorsAndValues.operatorSymbol = '^';
             console.log(operatorsAndValues.exponentiate);
             return operatorsAndValues.exponentiate;
+        case 'exponent-n':
+            operatorsAndValues.operatorSymbol = '^';
+            console.log(operatorsAndValues.exponentiate);
+            return operatorsAndValues.exponentiate;
         case 'raise-two-to-power':
             operatorsAndValues.operatorSymbol = '2 ^';
             console.log(operatorsAndValues.raiseTwoToPower);
@@ -241,12 +261,38 @@ function getMouseOperator(e) {
             operatorsAndValues.operatorSymbol = '2 ^';
             console.log(operatorsAndValues.raiseTwoToPower);
             return operatorsAndValues.raiseTwoToPower;
+        case 'calculate-nth-root':
+            operatorsAndValues.operatorSymbol = '√';
+            console.log(operatorsAndValues.calculateNthRoot);
+            return operatorsAndValues.calculateNthRoot;
+        case 'degree-n':
+            operatorsAndValues.operatorSymbol = '√';
+            console.log(operatorsAndValues.calculateNthRoot);
+            return operatorsAndValues.calculateNthRoot;
+        case 'radicand-x':
+            operatorsAndValues.operatorSymbol = '√';
+            console.log(operatorsAndValues.calculateNthRoot);
+            return operatorsAndValues.calculateNthRoot;
+        case 'reverse-sign':
+            operatorsAndValues.operatorSymbol = '±';
+            console.log(operatorsAndValues.reverseSign);
+            return operatorsAndValues.reverseSign;
+        case 'percent':
+            operatorsAndValues.operatorSymbol = '%';
+            console.log(operatorsAndValues.calculatePercent);
+            return operatorsAndValues.calculatePercent;
     }
 }
 
 function calculateResult() {
     operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
-    displayTop.textContent += `${operatorsAndValues.displayBottomValueCurrent} =`;
+
+    if (operatorsAndValues.operatorCurrent.name === 'calculateNthRoot') {
+        displayTop.prepend(`${operatorsAndValues.displayBottomValueCurrent} `);
+    } else {
+        displayTop.append(`${operatorsAndValues.displayBottomValueCurrent} =`);
+    }
+
     // updateDisplayBottomValue();
     operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
         operatorsAndValues.displayBottomValuePrevious, operatorsAndValues.displayBottomValueCurrent);
