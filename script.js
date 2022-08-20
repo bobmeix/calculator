@@ -152,14 +152,15 @@ function addKeyboardNumber(number) {
 function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
-    console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
-    console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
 
     if (operator.target.id === 'raise-two-to-power' || operator.target.id === 'exponent-X') {
+        operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultPrevious ? 
+            operatorsAndValues.resultPrevious : operatorsAndValues.displayBottomValueCurrent;
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
         displayBottom.textContent = operatorsAndValues.resultCurrent;
         displayTop.textContent = `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
+        operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
     }
 
     // operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
@@ -168,17 +169,24 @@ function executeOperation(operator) {
     // displayBottom.textContent = operatorsAndValues.resultCurrent;
     // displayTop.textContent = `${operatorsAndValues.resultCurrent} ${operatorsAndValues.operatorSymbol}`;
 
-    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
-    operatorsAndValues.resultCurrent = 0;
+    console.log('current Operator: ' + operatorsAndValues.operatorCurrent);
+    console.log('previous Operator: ' + operatorsAndValues.operatorPrevious);
+    
+    console.log('current display value: ' + operatorsAndValues.displayBottomValueCurrent);
+    console.log('previous display value: ' + operatorsAndValues.displayBottomValuePrevious);
+    
+    console.log('current Result: ' + operatorsAndValues.resultCurrent);
+    console.log('previous Result: ' + operatorsAndValues.resultPrevious);
 
-    console.log('currentResult ' + operatorsAndValues.resultCurrent);
-    console.log('previousResult ' + operatorsAndValues.resultPrevious);
-
+    
     operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
     operatorsAndValues.operatorCurrent = null;
 
     operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
     operatorsAndValues.displayBottomValueCurrent = 0;
+
+    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
+    operatorsAndValues.resultCurrent = 0;
 
     reduceDisplayBottomFontSize();
     reduceDisplayTopFontSize();
@@ -296,5 +304,5 @@ console.log(operate(operatorsAndValues.divide, '3', 4));
 console.log(operate(operatorsAndValues.exponentiate, '-3', 3, 3));
 console.log(operate(operatorsAndValues.reverseSign, '-2'))
 console.log(operate(operatorsAndValues.raiseTwoToPower, '-3', '-3'));
-console.log((operate(operatorsAndValues.calculateNthRoot, '64', 3)));
+console.log((operate(operatorsAndValues.calculateNthRoot, '2', 2)));
 console.log(operate(operatorsAndValues.calculatePercent, '25'));
