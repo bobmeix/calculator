@@ -16,7 +16,7 @@ operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener('mousedown', executeOperation);
 })
 const equalButton = document.querySelector('.equal');
-equalButton.addEventListener('mousedown', executeOperation);
+equalButton.addEventListener('mousedown', calculateResult);
 
 
 const operatorsAndValues = {
@@ -152,44 +152,34 @@ function addKeyboardNumber(number) {
 function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
+    if (operator.target.id === 'add' ||
+        operator.target.id === 'subtract' ||
+        operator.target.id === 'multiply' ||
+        operator.target.id === 'divide') {
+        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        displayTop.textContent = `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} `;
+        updateDisplayBottomValue();
+    }
 
     if (operator.target.id === 'raise-two-to-power' || operator.target.id === 'exponent-X') {
-        
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
-        
-        // operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultPrevious ?
-        //     operatorsAndValues.resultPrevious : operatorsAndValues.displayBottomValueCurrent;
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
         displayBottom.textContent = operatorsAndValues.resultCurrent;
         displayTop.textContent = `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
-        // operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
+        operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
+
+        console.log('current Operator: ' + operatorsAndValues.operatorCurrent);
+        console.log('previous Operator: ' + operatorsAndValues.operatorPrevious);
+
+        console.log('current display value: ' + operatorsAndValues.displayBottomValueCurrent);
+        console.log('previous display value: ' + operatorsAndValues.displayBottomValuePrevious);
+
+        console.log('current Result: ' + operatorsAndValues.resultCurrent);
+        console.log('previous Result: ' + operatorsAndValues.resultPrevious);
+
+        updateOperatorsAndValues();
     }
-
-    // operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
-    //     operatorsAndValues.resultPrevious,
-    //     operatorsAndValues.displayBottomValueCurrent)
-    // displayBottom.textContent = operatorsAndValues.resultCurrent;
-    // displayTop.textContent = `${operatorsAndValues.resultCurrent} ${operatorsAndValues.operatorSymbol}`;
-
-    console.log('current Operator: ' + operatorsAndValues.operatorCurrent);
-    console.log('previous Operator: ' + operatorsAndValues.operatorPrevious);
-    
-    console.log('current display value: ' + operatorsAndValues.displayBottomValueCurrent);
-    console.log('previous display value: ' + operatorsAndValues.displayBottomValuePrevious);
-    
-    console.log('current Result: ' + operatorsAndValues.resultCurrent);
-    console.log('previous Result: ' + operatorsAndValues.resultPrevious);
-
-    
-    operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
-    operatorsAndValues.operatorCurrent = null;
-
-    operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
-    operatorsAndValues.displayBottomValueCurrent = 0;
-
-    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
-    operatorsAndValues.resultCurrent = 0;
 
     reduceDisplayBottomFontSize();
     reduceDisplayTopFontSize();
@@ -254,8 +244,47 @@ function getMouseOperator(e) {
     }
 }
 
+function calculateResult() {
+    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+    displayTop.textContent += `${operatorsAndValues.displayBottomValueCurrent} =`;
+    // updateDisplayBottomValue();
+    operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
+        operatorsAndValues.displayBottomValuePrevious, operatorsAndValues.displayBottomValueCurrent);
+    displayBottom.textContent = operatorsAndValues.resultCurrent;
+    operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
+
+
+    console.log('current Operator: ' + operatorsAndValues.operatorCurrent);
+    console.log('previous Operator: ' + operatorsAndValues.operatorPrevious);
+
+    console.log('current display value: ' + operatorsAndValues.displayBottomValueCurrent);
+    console.log('previous display value: ' + operatorsAndValues.displayBottomValuePrevious);
+
+    console.log('current Result: ' + operatorsAndValues.resultCurrent);
+    console.log('previous Result: ' + operatorsAndValues.resultPrevious);
+    updateOperatorsAndValues();
+    reduceDisplayBottomFontSize();
+    reduceDisplayTopFontSize();
+}
+
 function operate(operator, ...numbers) {
     return operator(...numbers);
+}
+
+function updateDisplayBottomValue() {
+    operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
+    operatorsAndValues.displayBottomValueCurrent = 0;
+}
+
+function updateOperatorsAndValues() {
+    operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
+    operatorsAndValues.operatorCurrent = null;
+
+    operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
+    operatorsAndValues.displayBottomValueCurrent = 0;
+
+    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
+    operatorsAndValues.resultCurrent = 0;
 }
 
 function clearAll() {
