@@ -268,7 +268,9 @@ function calculateResult() {
 }
 
 function operate(operator, ...numbers) {
-    return operator(...numbers);
+    return Math.round(operator(...numbers) * 1000000000000000) / 1000000000000000;
+    // return operator(...numbers);
+
 }
 
 function updateDisplayBottomValue() {
@@ -336,5 +338,5 @@ console.log(operate(operatorsAndValues.divide, '3', 4));
 console.log(operate(operatorsAndValues.exponentiate, '-3', 3, 3));
 console.log(operate(operatorsAndValues.reverseSign, '-2'))
 console.log(operate(operatorsAndValues.raiseTwoToPower, '-3', '-3'));
-console.log((operate(operatorsAndValues.calculateNthRoot, '2', 2)));
+console.log((operate(operatorsAndValues.calculateNthRoot, '64', 3)));
 console.log(operate(operatorsAndValues.calculatePercent, '25'));
