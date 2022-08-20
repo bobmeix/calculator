@@ -85,6 +85,12 @@ function reduceDisplayBottomFontSize() {
     }
 }
 
+function reduceDisplayTopFontSize() {
+    if (displayTop.textContent.length > 34) {
+        displayTop.setAttribute('style', 'font-size: 17px');
+    }
+}
+
 
 function addMouseNumber(number) {
     if (displayBottom.textContent.length >= 34) return;
@@ -149,7 +155,7 @@ function executeOperation(operator) {
     console.log('current ' + operatorsAndValues.displayBottomValueCurrent);
     console.log('previous ' + operatorsAndValues.displayBottomValuePrevious);
 
-    if (operator.target.id === 'raise-two-to-power') {
+    if (operator.target.id === 'raise-two-to-power' || operator.target.id === 'exponent-X') {
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
         displayBottom.textContent = operatorsAndValues.resultCurrent;
@@ -175,6 +181,7 @@ function executeOperation(operator) {
     operatorsAndValues.displayBottomValueCurrent = 0;
 
     reduceDisplayBottomFontSize();
+    reduceDisplayTopFontSize();
 }
 
 function getMouseNumberValue(e) {
@@ -226,6 +233,10 @@ function getMouseOperator(e) {
             console.log(operatorsAndValues.exponentiate);
             return operatorsAndValues.exponentiate;
         case 'raise-two-to-power':
+            operatorsAndValues.operatorSymbol = '2 ^';
+            console.log(operatorsAndValues.raiseTwoToPower);
+            return operatorsAndValues.raiseTwoToPower;
+        case 'exponent-X':
             operatorsAndValues.operatorSymbol = '2 ^';
             console.log(operatorsAndValues.raiseTwoToPower);
             return operatorsAndValues.raiseTwoToPower;
