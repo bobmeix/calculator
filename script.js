@@ -347,10 +347,10 @@ function clearAll() {
     operatorsAndValues.resultCurrent = 0;
     operatorsAndValues.resultPrevious = 0;
 
-    operatorCurrent = null;
-    operatorPrevious = null;
+    operatorsAndValues.operatorCurrent = null;
+    operatorsAndValues.operatorPrevious = null;
 
-    operatorSymbol = '';
+    operatorsAndValues.operatorSymbol = '';
 }
 
 function clearEntry() {
