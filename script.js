@@ -154,13 +154,16 @@ function executeOperation(operator) {
 
 
     if (operator.target.id === 'raise-two-to-power' || operator.target.id === 'exponent-X') {
-        operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultPrevious ? 
-            operatorsAndValues.resultPrevious : operatorsAndValues.displayBottomValueCurrent;
+        
+        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        
+        // operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultPrevious ?
+        //     operatorsAndValues.resultPrevious : operatorsAndValues.displayBottomValueCurrent;
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
         displayBottom.textContent = operatorsAndValues.resultCurrent;
         displayTop.textContent = `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
-        operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
+        // operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
     }
 
     // operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
