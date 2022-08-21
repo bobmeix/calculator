@@ -204,3 +204,8 @@ button:active {
 #reverse-sign {
     padding-bottom: 6px;
 }
+
+#back:active,
+#reverse-sign:active {
+    padding-bottom: 8px;
+}
