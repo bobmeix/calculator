@@ -80,16 +80,20 @@ function reduceDisplayBottomFontSize() {
         displayBottom.setAttribute('style', 'font-size: 20px');
     } else if (displayBottom.textContent.length > 17 || displayBottom.textContent.includes('e')) {
         displayBottom.setAttribute('style', `font-size: 29.5px`);
-    } else {
+    } else if (displayBottom.textContent.length > 13 || displayBottom.textContent.includes('e')) {
         displayBottom.setAttribute('style', `font-size: 40px`);
+    } else {
+        displayBottom.setAttribute('style', `font-size: 50px`);
     }
 }
 
 function reduceDisplayTopFontSize() {
     if (displayTop.textContent.length > 34) {
         displayTop.setAttribute('style', 'font-size: 17px');
-    } else {
+    } else if (displayTop.textContent.length > 22){
         displayTop.setAttribute('style', `font-size: 20px`);
+    } else {
+        displayTop.setAttribute('style', `font-size: 30px`);
     }
 }
 
@@ -337,7 +341,7 @@ function updateOperatorsAndValues() {
 
 function clearAll() {
     displayBottom.textContent = '0';
-    displayBottom.setAttribute('style', `font-size: 40px`);
+    displayBottom.setAttribute('style', `font-size: 50px`);
     displayTop.textContent = '';
 
     operatorsAndValues.displayBottomValueCurrent = 0;
@@ -355,7 +359,7 @@ function clearAll() {
 
 function clearEntry() {
     displayBottom.textContent = '0';
-    displayBottom.setAttribute('style', `font-size: 40px`);
+    displayBottom.setAttribute('style', `font-size: 50px`);
     operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 }
 
@@ -363,7 +367,7 @@ function back() {
     reduceDisplayBottomFontSize();
     if (displayBottom.textContent.length === 1) {
         displayBottom.textContent = '0';
-        displayBottom.setAttribute('style', `font-size: 40px`);
+        displayBottom.setAttribute('style', `font-size: 50px`);
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
         return;
     }
