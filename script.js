@@ -292,6 +292,8 @@ function executeOperation(operator) {
         operator.target.id === 'exponentiate' ||
         operator.target.id === 'exponent-n') {
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        // operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent
+            // ? operatorsAndValues.resultCurrent : displayBottom.textContent;
         displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
             operator.target.id === 'degree-n' ||
             operator.target.id === 'radicand-x' ?
@@ -414,9 +416,19 @@ function operate(operator, ...numbers) {
 
 }
 
+function updateOperators() {
+    operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
+    operatorsAndValues.operatorCurrent = null;
+}
+
 function updateDisplayBottomValue() {
     operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
     operatorsAndValues.displayBottomValueCurrent = 0;
+}
+
+function updateResults() {
+    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
+    operatorsAndValues.resultCurrent = 0;
 }
 
 function updateOperatorsAndValues() {
@@ -449,12 +461,18 @@ function clearAll() {
 }
 
 function clearEntry() {
+    if (displayBottom.textContent === 'Division by zero, not cool!') {
+        clearAll();
+    };
     displayBottom.textContent = '0';
     displayBottom.setAttribute('style', `font-size: 50px`);
     operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 }
 
 function back() {
+    if (displayBottom.textContent === 'Division by zero, not cool!') {
+        clearAll();
+    };
     reduceDisplayBottomFontSize();
     if (displayBottom.textContent.length === 1) {
         displayBottom.textContent = '0';
