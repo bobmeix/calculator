@@ -340,12 +340,16 @@ function executeOperation(operator) {
 }
 
 function executeKeyboardOperation(operator) {
-    // operatorsAndValues.operatorCurrent = getKeyboardOperator(operator);
+    if (!(operator.key === '+' ||
+        operator.key === '-' ||
+        operator.key === '*' ||
+        operator.key === '/')) return;
 
-    if (displayBottom.textContent === 'Division by zero, not cool!') {
-        displayBottom.textContent = '0';
-    }
-    
+
+        if (displayBottom.textContent === 'Division by zero, not cool!') {
+            displayBottom.textContent = '0';
+        }
+
     if (operator.key === '+' ||
         operator.key === '-' ||
         operator.key === '*' ||
