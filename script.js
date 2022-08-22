@@ -278,6 +278,10 @@ function calculateOnEnter(e) {
 function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
+    if (displayBottom.textContent === 'Division by zero, not cool!') {
+        displayBottom.textContent = '0';
+    }
+
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
         operator.target.id === 'multiply' ||
@@ -338,6 +342,10 @@ function executeOperation(operator) {
 function executeKeyboardOperation(operator) {
     // operatorsAndValues.operatorCurrent = getKeyboardOperator(operator);
 
+    if (displayBottom.textContent === 'Division by zero, not cool!') {
+        displayBottom.textContent = '0';
+    }
+    
     if (operator.key === '+' ||
         operator.key === '-' ||
         operator.key === '*' ||
@@ -365,7 +373,14 @@ function executeKeyboardOperation(operator) {
 function calculateResult() {
     operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 
-    if (!operatorsAndValues.operatorCurrent) return;
+    if (!operatorsAndValues.operatorCurrent || displayBottom.textContent === 'Division by zero, not cool!') return;
+
+    if (operatorsAndValues.operatorCurrent.name === 'divide' && operatorsAndValues.displayBottomValueCurrent === '0') {
+        displayBottom.textContent = 'Division by zero, not cool!';
+        displayTop.append(' 0 =')
+        reduceDisplayBottomFontSize();
+        return;
+    }
 
     if (operatorsAndValues.operatorCurrent.name === 'calculateNthRoot') {
         displayTop.prepend(`${operatorsAndValues.displayBottomValueCurrent} `);
