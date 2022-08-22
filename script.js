@@ -101,7 +101,8 @@ function reduceDisplayTopFontSize() {
 
 
 function addMouseNumber(number) {
-    if (displayBottom.textContent.length >= 34) return;
+    if (displayBottom.textContent.length >= 34 ||
+        displayBottom.textContent === 'Division by zero, not cool!') return;
 
     displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
 
@@ -132,7 +133,8 @@ function addMouseNumber(number) {
 function addKeyboardNumber(number) {
     if (displayBottom.textContent.length >= 34 ||
         !((number.key >= 0 && number.key <= 9) || number.key === '.') ||
-        number.key === ' '
+        number.key === ' ' ||
+        displayBottom.textContent === 'Division by zero, not cool!'
     ) return;
 
     displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
@@ -278,9 +280,7 @@ function calculateOnEnter(e) {
 function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
-    if (displayBottom.textContent === 'Division by zero, not cool!') {
-        displayBottom.textContent = '0';
-    }
+    if (displayBottom.textContent === 'Division by zero, not cool!') return;
 
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
@@ -343,12 +343,8 @@ function executeKeyboardOperation(operator) {
     if (!(operator.key === '+' ||
         operator.key === '-' ||
         operator.key === '*' ||
-        operator.key === '/')) return;
-
-
-        if (displayBottom.textContent === 'Division by zero, not cool!') {
-            displayBottom.textContent = '0';
-        }
+        operator.key === '/') ||
+        displayBottom.textContent === 'Division by zero, not cool!') return;
 
     if (operator.key === '+' ||
         operator.key === '-' ||
