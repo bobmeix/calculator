@@ -280,7 +280,8 @@ function calculateOnEnter(e) {
 function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
-    if (displayBottom.textContent === 'Division by zero, not cool!') return;
+    if (displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity') return;
 
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
@@ -293,7 +294,7 @@ function executeOperation(operator) {
         operator.target.id === 'exponent-n') {
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
         // operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent
-            // ? operatorsAndValues.resultCurrent : displayBottom.textContent;
+        // ? operatorsAndValues.resultCurrent : displayBottom.textContent;
         displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
             operator.target.id === 'degree-n' ||
             operator.target.id === 'radicand-x' ?
@@ -346,7 +347,8 @@ function executeKeyboardOperation(operator) {
         operator.key === '-' ||
         operator.key === '*' ||
         operator.key === '/') ||
-        displayBottom.textContent === 'Division by zero, not cool!') return;
+        displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity') return;
 
     if (operator.key === '+' ||
         operator.key === '-' ||
@@ -375,7 +377,9 @@ function executeKeyboardOperation(operator) {
 function calculateResult() {
     operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 
-    if (!operatorsAndValues.operatorCurrent || displayBottom.textContent === 'Division by zero, not cool!') return;
+    if (!operatorsAndValues.operatorCurrent ||
+        displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity') return;
 
     if (operatorsAndValues.operatorCurrent.name === 'divide' && operatorsAndValues.displayBottomValueCurrent === '0') {
         displayBottom.textContent = 'Division by zero, not cool!';
@@ -461,7 +465,8 @@ function clearAll() {
 }
 
 function clearEntry() {
-    if (displayBottom.textContent === 'Division by zero, not cool!') {
+    if (displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity') {
         clearAll();
     };
     displayBottom.textContent = '0';
@@ -470,7 +475,8 @@ function clearEntry() {
 }
 
 function back() {
-    if (displayBottom.textContent === 'Division by zero, not cool!') {
+    if (displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity') {
         clearAll();
     };
     reduceDisplayBottomFontSize();
