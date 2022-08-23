@@ -102,7 +102,8 @@ function reduceDisplayTopFontSize() {
 
 function addMouseNumber(number) {
     if (displayBottom.textContent.length >= 34 ||
-        displayBottom.textContent === 'Division by zero, not cool!') return;
+        displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity') return;
 
     displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
 
@@ -134,7 +135,8 @@ function addKeyboardNumber(number) {
     if (displayBottom.textContent.length >= 34 ||
         !((number.key >= 0 && number.key <= 9) || number.key === '.') ||
         number.key === ' ' ||
-        displayBottom.textContent === 'Division by zero, not cool!'
+        displayBottom.textContent === 'Division by zero, not cool!' ||
+        displayBottom.textContent === 'Infinity'
     ) return;
 
     displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
@@ -278,6 +280,15 @@ function calculateOnEnter(e) {
 }
 
 function executeOperation(operator) {
+    console.log('=======current operator before test: ' + operatorsAndValues.operatorCurrent);
+
+
+    if (operatorsAndValues.operatorCurrent) {
+        calculateResult();
+    }
+
+    console.log('=======current operator after test: ' + operatorsAndValues.operatorCurrent);
+
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
@@ -354,6 +365,11 @@ function executeKeyboardOperation(operator) {
         operator.key === '-' ||
         operator.key === '*' ||
         operator.key === '/') {
+
+        if (operatorsAndValues.operatorCurrent) {
+            calculateResult();
+        }
+
         operatorsAndValues.operatorCurrent = getKeyboardOperator(operator);
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
         displayTop.textContent = `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} `;
@@ -375,9 +391,10 @@ function executeKeyboardOperation(operator) {
 }
 
 function calculateResult() {
-    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+    // operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 
     if (!operatorsAndValues.operatorCurrent ||
+        !operatorsAndValues.displayBottomValueCurrent ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity') return;
 
@@ -394,7 +411,6 @@ function calculateResult() {
         displayTop.append(`${operatorsAndValues.displayBottomValueCurrent} =`);
     }
 
-    // updateDisplayBottomValue();
     operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
         operatorsAndValues.displayBottomValuePrevious, operatorsAndValues.displayBottomValueCurrent);
     displayBottom.textContent = operatorsAndValues.resultCurrent;
