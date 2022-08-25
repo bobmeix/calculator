@@ -101,7 +101,8 @@ function reduceDisplayTopFontSize() {
 function addMouseNumber(number) {
     if (displayBottom.textContent.length >= 34 ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity') return;
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN') return;
 
     displayBottom.textContent = addThousandSeparators(String(operatorsAndValues.displayBottomValueCurrent));
 
@@ -126,7 +127,8 @@ function addKeyboardNumber(number) {
         !((number.key >= 0 && number.key <= 9) || number.key === '.') ||
         number.key === ' ' ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity'
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN'
     ) return;
 
     displayBottom.textContent = addThousandSeparators(String(operatorsAndValues.displayBottomValueCurrent));
@@ -244,7 +246,8 @@ function executeOperation(operator) {
     operatorsAndValues.operatorCurrent = getMouseOperator(operator);
 
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity') return;
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN') return;
 
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
@@ -292,7 +295,8 @@ function executeKeyboardOperation(operator) {
         operator.key === '*' ||
         operator.key === '/') ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity') return;
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN') return;
 
     if (operator.key === '+' ||
         operator.key === '-' ||
@@ -318,7 +322,8 @@ function calculateResult() {
     if (!operatorsAndValues.operatorCurrent ||
         !operatorsAndValues.displayBottomValueCurrent ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity') return;
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN') return;
 
     if (operatorsAndValues.operatorCurrent.name === 'divide' && operatorsAndValues.displayBottomValueCurrent === '0') {
         displayBottom.textContent = 'Division by zero, not cool!';
@@ -383,7 +388,8 @@ function clearAll() {
 
 function clearEntry() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity') {
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN') {
         clearAll();
     };
     displayBottom.textContent = '0';
@@ -393,7 +399,8 @@ function clearEntry() {
 
 function back() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
-        displayBottom.textContent === 'Infinity') {
+        displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === 'NaN') {
         clearAll();
     };
     reduceDisplayBottomFontSize();
