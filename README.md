@@ -18,4 +18,5 @@ Features:
     Escape for all clear / Delete for clear entry / Backspace for deleting one character at a time
 - there is also edge case handling for division by 0 and Infinity: all the delete buttons act as "all clear"
     while other buttons are disabled
-
+- large numbers have Thousand separators (dot for Thousand; comma to indicate the decimal place )
+    for easier readability

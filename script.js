@@ -117,7 +117,6 @@ function addMouseNumber(number) {
         displayBottom.textContent += ',';
     }
     operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
-    console.log('bottomCurrentValue removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
 
     reduceDisplayBottomFontSize();
 }
@@ -130,18 +129,20 @@ function addKeyboardNumber(number) {
         displayBottom.textContent === 'Infinity'
     ) return;
 
-    displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
+    displayBottom.textContent = addThousandSeparators(String(operatorsAndValues.displayBottomValueCurrent));
 
     if (displayBottom.textContent === '0' && getKeyboardNumberValue(number) !== '.') {
         displayBottom.textContent = getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '0';
     } else if (displayBottom.textContent !== '0' && getKeyboardNumberValue(number) !== '.') {
+        displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);           
         displayBottom.textContent += getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '';
+        displayBottom.textContent = addThousandSeparators(displayBottom.textContent);
     } else if (displayBottom.textContent.includes(',')) {
         return;
     } else if (getKeyboardNumberValue(number) === '.') {
         displayBottom.textContent += ',';
     }
-    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+    operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
 
     reduceDisplayBottomFontSize();
 }
@@ -256,8 +257,6 @@ function executeOperation(operator) {
         operator.target.id === 'exponent-n') {
         operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
 
-        console.log('bottomCurrentValue replaceCommaWithDot and removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
-
         displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
             operator.target.id === 'degree-n' ||
             operator.target.id === 'radicand-x' ?
@@ -265,11 +264,6 @@ function executeOperation(operator) {
             `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} `;
 
         updateDisplayBottomValue();
-
-        console.log('bottomPreviousValue replaceCommaWithDot and removeThousandSeparators: ' + operatorsAndValues.displayBottomValuePrevious);
-        console.log('bottomCurrentValue replaceCommaWithDot and removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
-
-
     }
 
     if (operator.target.id === 'raise-two-to-power' ||
@@ -279,7 +273,6 @@ function executeOperation(operator) {
         operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
-            console.log(operatorsAndValues.displayBottomValueCurrent);
         displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(operatorsAndValues.resultCurrent)));
         displayTop.textContent = operator.target.id === 'percent' ?
             `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} =` :
@@ -311,8 +304,8 @@ function executeKeyboardOperation(operator) {
         }
 
         operatorsAndValues.operatorCurrent = getKeyboardOperator(operator);
-        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
-        displayTop.textContent = `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} `;
+        operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} `;
 
         updateDisplayBottomValue();
     }
@@ -411,13 +404,9 @@ function back() {
         return;
     }
     displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);
-    console.log('text removeThousandSeparators: ' + displayBottom.textContent);
     displayBottom.textContent = displayBottom.textContent.slice(0, -1);
-    console.log('text sliced: ' + displayBottom.textContent);
     displayBottom.textContent = addThousandSeparators(displayBottom.textContent);
-    console.log('text addThousandSeparators: ' + displayBottom.textContent);
     operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
-    console.log('bottomCurrentValue removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
 }
 
 function addThousandSeparators(number) {
