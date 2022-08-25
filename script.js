@@ -103,18 +103,21 @@ function addMouseNumber(number) {
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity') return;
 
-    displayBottom.textContent = operatorsAndValues.displayBottomValueCurrent;
+    displayBottom.textContent = addThousandSeparators(String(operatorsAndValues.displayBottomValueCurrent));
 
-    if (displayBottom.textContent === '0' && getMouseNumberValue(number) !== '.') {
+    if (displayBottom.textContent === '0' && getMouseNumberValue(number) !== ',') {
         displayBottom.textContent = getMouseNumberValue(number);
-    } else if (displayBottom.textContent !== '0' && getMouseNumberValue(number) !== '.') {
+    } else if (displayBottom.textContent !== '0' && getMouseNumberValue(number) !== ',') {
+        displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);
         displayBottom.textContent += getMouseNumberValue(number);
-    } else if (displayBottom.textContent.includes('.')) {
+        displayBottom.textContent = addThousandSeparators(displayBottom.textContent);
+    } else if (displayBottom.textContent.includes(',')) {
         return;
-    } else if (getMouseNumberValue(number) === '.') {
-        displayBottom.textContent += '.';
+    } else if (getMouseNumberValue(number) === ',') {
+        displayBottom.textContent += ',';
     }
-    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+    operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
+    console.log('bottomCurrentValue removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
 
     reduceDisplayBottomFontSize();
 }
@@ -133,10 +136,10 @@ function addKeyboardNumber(number) {
         displayBottom.textContent = getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '0';
     } else if (displayBottom.textContent !== '0' && getKeyboardNumberValue(number) !== '.') {
         displayBottom.textContent += getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '';
-    } else if (displayBottom.textContent.includes('.')) {
+    } else if (displayBottom.textContent.includes(',')) {
         return;
     } else if (getKeyboardNumberValue(number) === '.') {
-        displayBottom.textContent += '.';
+        displayBottom.textContent += ',';
     }
     operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
 
@@ -251,27 +254,36 @@ function executeOperation(operator) {
         operator.target.id === 'radicand-x' ||
         operator.target.id === 'exponentiate' ||
         operator.target.id === 'exponent-n') {
-        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+
+        console.log('bottomCurrentValue replaceCommaWithDot and removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
+
         displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
             operator.target.id === 'degree-n' ||
             operator.target.id === 'radicand-x' ?
-            `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =` :
-            `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} `;
+            `${operatorsAndValues.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} =` :
+            `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} `;
 
         updateDisplayBottomValue();
+
+        console.log('bottomPreviousValue replaceCommaWithDot and removeThousandSeparators: ' + operatorsAndValues.displayBottomValuePrevious);
+        console.log('bottomCurrentValue replaceCommaWithDot and removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
+
+
     }
 
     if (operator.target.id === 'raise-two-to-power' ||
         operator.target.id === 'exponent-X' ||
         operator.target.id === 'reverse-sign' ||
         operator.target.id === 'percent') {
-        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
         operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
             operatorsAndValues.displayBottomValueCurrent)
-        displayBottom.textContent = operatorsAndValues.resultCurrent;
+            console.log(operatorsAndValues.displayBottomValueCurrent);
+        displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(operatorsAndValues.resultCurrent)));
         displayTop.textContent = operator.target.id === 'percent' ?
-            `${operatorsAndValues.displayBottomValueCurrent} ${operatorsAndValues.operatorSymbol} =` :
-            `${operatorsAndValues.operatorSymbol} ${operatorsAndValues.displayBottomValueCurrent} =`;
+            `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} =` :
+            `${operatorsAndValues.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} =`;
         operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
 
         updateOperatorsAndValues();
@@ -323,14 +335,14 @@ function calculateResult() {
     }
 
     if (operatorsAndValues.operatorCurrent.name === 'calculateNthRoot') {
-        displayTop.prepend(`${operatorsAndValues.displayBottomValueCurrent} `);
+        displayTop.prepend(`${addThousandSeparators(operatorsAndValues.displayBottomValueCurrent)} `);
     } else {
-        displayTop.append(`${operatorsAndValues.displayBottomValueCurrent} =`);
+        displayTop.append(`${addThousandSeparators(operatorsAndValues.displayBottomValueCurrent)} =`);
     }
 
     operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
-        operatorsAndValues.displayBottomValuePrevious, operatorsAndValues.displayBottomValueCurrent);
-    displayBottom.textContent = operatorsAndValues.resultCurrent;
+        operatorsAndValues.displayBottomValuePrevious, replaceCommaWithDot(operatorsAndValues.displayBottomValueCurrent));
+    displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(operatorsAndValues.resultCurrent)));
     operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
 
     updateOperatorsAndValues();
@@ -398,6 +410,39 @@ function back() {
         operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
         return;
     }
+    displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);
+    console.log('text removeThousandSeparators: ' + displayBottom.textContent);
     displayBottom.textContent = displayBottom.textContent.slice(0, -1);
-    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+    console.log('text sliced: ' + displayBottom.textContent);
+    displayBottom.textContent = addThousandSeparators(displayBottom.textContent);
+    console.log('text addThousandSeparators: ' + displayBottom.textContent);
+    operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
+    console.log('bottomCurrentValue removeThousandSeparators: ' + operatorsAndValues.displayBottomValueCurrent);
+}
+
+function addThousandSeparators(number) {
+    let integerPart;
+    let fractionalPart;
+    let addedSeparators;
+
+    if (number.includes(',')) {
+        integerPart = number.split(',')[0];
+        fractionalPart = number.split(',')[1];
+        addedSeparators = `${integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${fractionalPart}`;
+    } else {
+        addedSeparators = `${number.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+    }
+    return addedSeparators;
+}
+
+function removeThousandSeparators(number) {
+    return number.replace(/\./g, '');
+}
+
+function replaceCommaWithDot(number) {
+    return number.replace(',', '.');
+}
+
+function replaceDotWithComma(number) {
+    return number.replace('.', ',');
 }
