@@ -3,8 +3,8 @@ window.addEventListener('keydown', getKeyboardControlValue);
 window.addEventListener('keydown', executeKeyboardOperation);
 window.addEventListener('keydown', calculateOnEnter);
 
-const displayBottom = document.querySelector('.display-bottom');
-const displayTop = document.querySelector('.display-top');
+const displayBottom = document.querySelector('[data-display-bottom]');
+const displayTop = document.querySelector('[data-display-top]');
 const numberButtons = document.querySelectorAll('[data-number]');
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener('mousedown', addMouseNumber);
