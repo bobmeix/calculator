@@ -5,19 +5,19 @@ window.addEventListener('keydown', calculateOnEnter);
 
 const displayBottom = document.querySelector('.display-bottom');
 const displayTop = document.querySelector('.display-top');
-const numberButtons = document.querySelectorAll('.number');
+const numberButtons = document.querySelectorAll('[data-number]');
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener('mousedown', addMouseNumber);
 })
-const controlButtons = document.querySelectorAll('.control');
+const controlButtons = document.querySelectorAll('[data-control]');
 controlButtons.forEach(controlButton => {
     controlButton.addEventListener('mousedown', getMouseControlValue);
 })
-const operatorButtons = document.querySelectorAll('.operator');
+const operatorButtons = document.querySelectorAll('[data-operator]');
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener('mousedown', executeOperation);
 })
-const equalButton = document.querySelector('.equal');
+const equalButton = document.querySelector('[data-equal]');
 equalButton.addEventListener('mousedown', calculateResult);
 
 const operatorsAndValues = {
