@@ -20,7 +20,7 @@ operatorButtons.forEach(operatorButton => {
 const equalButton = document.querySelector('[data-equal]');
 equalButton.addEventListener('mousedown', calculateResult);
 
-const operatorsAndValues = {
+const calculator = {
     add(...numbers) {
         let result = 0;
         numbers.forEach(number => result += +number);
@@ -48,12 +48,12 @@ const operatorsAndValues = {
     },
     raiseTwoToPower(...exponents) {
         let result = 2;
-        exponents.forEach(exponent => result = operatorsAndValues.exponentiate(result, exponent));
+        exponents.forEach(exponent => result = calculator.exponentiate(result, exponent));
         return result;
     },
     calculateNthRoot(radicand, ...degrees) {
         let result = +radicand;
-        degrees.forEach(degree => result = operatorsAndValues.exponentiate(result, 1 / degree));
+        degrees.forEach(degree => result = calculator.exponentiate(result, 1 / degree));
         return result;
     },
     reverseSign(number) {
@@ -104,7 +104,7 @@ function addMouseNumber(number) {
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
-    displayBottom.textContent = addThousandSeparators(String(operatorsAndValues.displayBottomValueCurrent));
+    displayBottom.textContent = addThousandSeparators(String(calculator.displayBottomValueCurrent));
 
     if (displayBottom.textContent === '0' && getMouseNumberValue(number) !== ',') {
         displayBottom.textContent = getMouseNumberValue(number);
@@ -117,7 +117,7 @@ function addMouseNumber(number) {
     } else if (getMouseNumberValue(number) === ',') {
         displayBottom.textContent += ',';
     }
-    operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
+    calculator.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
 
     reduceDisplayBottomFontSize();
 }
@@ -131,7 +131,7 @@ function addKeyboardNumber(number) {
         displayBottom.textContent === 'NaN'
     ) return;
 
-    displayBottom.textContent = addThousandSeparators(String(operatorsAndValues.displayBottomValueCurrent));
+    displayBottom.textContent = addThousandSeparators(String(calculator.displayBottomValueCurrent));
 
     if (displayBottom.textContent === '0' && getKeyboardNumberValue(number) !== '.') {
         displayBottom.textContent = getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '0';
@@ -144,7 +144,7 @@ function addKeyboardNumber(number) {
     } else if (getKeyboardNumberValue(number) === '.') {
         displayBottom.textContent += ',';
     }
-    operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
+    calculator.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
 
     reduceDisplayBottomFontSize();
 }
@@ -174,61 +174,61 @@ function getKeyboardControlValue(e) {
 function getMouseOperator(e) {
     switch (e.target.id) {
         case 'add':
-            operatorsAndValues.operatorSymbol = '+';
-            return operatorsAndValues.add;
+            calculator.operatorSymbol = '+';
+            return calculator.add;
         case 'subtract':
-            operatorsAndValues.operatorSymbol = '-';
-            return operatorsAndValues.subtract;
+            calculator.operatorSymbol = '-';
+            return calculator.subtract;
         case 'multiply':
-            operatorsAndValues.operatorSymbol = '×';
-            return operatorsAndValues.multiply;
+            calculator.operatorSymbol = '×';
+            return calculator.multiply;
         case 'divide':
-            operatorsAndValues.operatorSymbol = '÷';
-            return operatorsAndValues.divide;
+            calculator.operatorSymbol = '÷';
+            return calculator.divide;
         case 'exponentiate':
-            operatorsAndValues.operatorSymbol = '^';
-            return operatorsAndValues.exponentiate;
+            calculator.operatorSymbol = '^';
+            return calculator.exponentiate;
         case 'exponent-n':
-            operatorsAndValues.operatorSymbol = '^';
-            return operatorsAndValues.exponentiate;
+            calculator.operatorSymbol = '^';
+            return calculator.exponentiate;
         case 'raise-two-to-power':
-            operatorsAndValues.operatorSymbol = '2 ^';
-            return operatorsAndValues.raiseTwoToPower;
+            calculator.operatorSymbol = '2 ^';
+            return calculator.raiseTwoToPower;
         case 'exponent-X':
-            operatorsAndValues.operatorSymbol = '2 ^';
-            return operatorsAndValues.raiseTwoToPower;
+            calculator.operatorSymbol = '2 ^';
+            return calculator.raiseTwoToPower;
         case 'calculate-nth-root':
-            operatorsAndValues.operatorSymbol = '√';
-            return operatorsAndValues.calculateNthRoot;
+            calculator.operatorSymbol = '√';
+            return calculator.calculateNthRoot;
         case 'degree-n':
-            operatorsAndValues.operatorSymbol = '√';
-            return operatorsAndValues.calculateNthRoot;
+            calculator.operatorSymbol = '√';
+            return calculator.calculateNthRoot;
         case 'radicand-x':
-            operatorsAndValues.operatorSymbol = '√';
-            return operatorsAndValues.calculateNthRoot;
+            calculator.operatorSymbol = '√';
+            return calculator.calculateNthRoot;
         case 'reverse-sign':
-            operatorsAndValues.operatorSymbol = '±';
-            return operatorsAndValues.reverseSign;
+            calculator.operatorSymbol = '±';
+            return calculator.reverseSign;
         case 'percent':
-            operatorsAndValues.operatorSymbol = '%';
-            return operatorsAndValues.calculatePercent;
+            calculator.operatorSymbol = '%';
+            return calculator.calculatePercent;
     }
 }
 
 function getKeyboardOperator(e) {
     switch (e.key) {
         case '+':
-            operatorsAndValues.operatorSymbol = '+';
-            return operatorsAndValues.add;
+            calculator.operatorSymbol = '+';
+            return calculator.add;
         case '-':
-            operatorsAndValues.operatorSymbol = '-';
-            return operatorsAndValues.subtract;
+            calculator.operatorSymbol = '-';
+            return calculator.subtract;
         case '*':
-            operatorsAndValues.operatorSymbol = '×';
-            return operatorsAndValues.multiply;
+            calculator.operatorSymbol = '×';
+            return calculator.multiply;
         case '/':
-            operatorsAndValues.operatorSymbol = '÷';
-            return operatorsAndValues.divide;
+            calculator.operatorSymbol = '÷';
+            return calculator.divide;
         default:
             return;
     }
@@ -239,11 +239,11 @@ function calculateOnEnter(e) {
 }
 
 function executeOperation(operator) {
-    if (operatorsAndValues.operatorCurrent) {
+    if (calculator.operatorCurrent) {
         calculateResult();
     }
 
-    operatorsAndValues.operatorCurrent = getMouseOperator(operator);
+    calculator.operatorCurrent = getMouseOperator(operator);
 
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
@@ -258,13 +258,13 @@ function executeOperation(operator) {
         operator.target.id === 'radicand-x' ||
         operator.target.id === 'exponentiate' ||
         operator.target.id === 'exponent-n') {
-        operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
 
         displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
             operator.target.id === 'degree-n' ||
             operator.target.id === 'radicand-x' ?
-            `${operatorsAndValues.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} =` :
-            `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} `;
+            `${calculator.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} =` :
+            `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} `;
 
         updateDisplayBottomValue();
     }
@@ -273,16 +273,16 @@ function executeOperation(operator) {
         operator.target.id === 'exponent-X' ||
         operator.target.id === 'reverse-sign' ||
         operator.target.id === 'percent') {
-        operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
-        operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
-            operatorsAndValues.displayBottomValueCurrent)
-        displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(operatorsAndValues.resultCurrent)));
+        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        calculator.resultCurrent = operate(calculator.operatorCurrent,
+            calculator.displayBottomValueCurrent)
+        displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)));
         displayTop.textContent = operator.target.id === 'percent' ?
-            `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} =` :
-            `${operatorsAndValues.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} =`;
-        operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
+            `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} =` :
+            `${calculator.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} =`;
+        calculator.displayBottomValueCurrent = calculator.resultCurrent;
 
-        updateOperatorsAndValues();
+        updateCalculator();
     }
 
     reduceDisplayBottomFontSize();
@@ -303,13 +303,13 @@ function executeKeyboardOperation(operator) {
         operator.key === '*' ||
         operator.key === '/') {
 
-        if (operatorsAndValues.operatorCurrent) {
+        if (calculator.operatorCurrent) {
             calculateResult();
         }
 
-        operatorsAndValues.operatorCurrent = getKeyboardOperator(operator);
-        operatorsAndValues.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
-        displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(operatorsAndValues.displayBottomValueCurrent))} ${operatorsAndValues.operatorSymbol} `;
+        calculator.operatorCurrent = getKeyboardOperator(operator);
+        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} `;
 
         updateDisplayBottomValue();
     }
@@ -319,31 +319,31 @@ function executeKeyboardOperation(operator) {
 }
 
 function calculateResult() {
-    if (!operatorsAndValues.operatorCurrent ||
-        !operatorsAndValues.displayBottomValueCurrent ||
+    if (!calculator.operatorCurrent ||
+        !calculator.displayBottomValueCurrent ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
-    if (operatorsAndValues.operatorCurrent.name === 'divide' && operatorsAndValues.displayBottomValueCurrent === '0') {
+    if (calculator.operatorCurrent.name === 'divide' && calculator.displayBottomValueCurrent === '0') {
         displayBottom.textContent = 'Division by zero, not cool!';
         displayTop.append(' 0 =')
         reduceDisplayBottomFontSize();
         return;
     }
 
-    if (operatorsAndValues.operatorCurrent.name === 'calculateNthRoot') {
-        displayTop.prepend(`${addThousandSeparators(operatorsAndValues.displayBottomValueCurrent)} `);
+    if (calculator.operatorCurrent.name === 'calculateNthRoot') {
+        displayTop.prepend(`${addThousandSeparators(calculator.displayBottomValueCurrent)} `);
     } else {
-        displayTop.append(`${addThousandSeparators(operatorsAndValues.displayBottomValueCurrent)} =`);
+        displayTop.append(`${addThousandSeparators(calculator.displayBottomValueCurrent)} =`);
     }
 
-    operatorsAndValues.resultCurrent = operate(operatorsAndValues.operatorCurrent,
-        operatorsAndValues.displayBottomValuePrevious, replaceCommaWithDot(operatorsAndValues.displayBottomValueCurrent));
-    displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(operatorsAndValues.resultCurrent)));
-    operatorsAndValues.displayBottomValueCurrent = operatorsAndValues.resultCurrent;
+    calculator.resultCurrent = operate(calculator.operatorCurrent,
+        calculator.displayBottomValuePrevious, replaceCommaWithDot(calculator.displayBottomValueCurrent));
+    displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)));
+    calculator.displayBottomValueCurrent = calculator.resultCurrent;
 
-    updateOperatorsAndValues();
+    updateCalculator();
     reduceDisplayBottomFontSize();
     reduceDisplayTopFontSize();
 }
@@ -353,19 +353,19 @@ function operate(operator, ...numbers) {
 }
 
 function updateDisplayBottomValue() {
-    operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
-    operatorsAndValues.displayBottomValueCurrent = 0;
+    calculator.displayBottomValuePrevious = calculator.displayBottomValueCurrent;
+    calculator.displayBottomValueCurrent = 0;
 }
 
-function updateOperatorsAndValues() {
-    operatorsAndValues.operatorPrevious = operatorsAndValues.operatorCurrent;
-    operatorsAndValues.operatorCurrent = null;
+function updateCalculator() {
+    calculator.operatorPrevious = calculator.operatorCurrent;
+    calculator.operatorCurrent = null;
 
-    operatorsAndValues.displayBottomValuePrevious = operatorsAndValues.displayBottomValueCurrent;
-    operatorsAndValues.displayBottomValueCurrent = 0;
+    calculator.displayBottomValuePrevious = calculator.displayBottomValueCurrent;
+    calculator.displayBottomValueCurrent = 0;
 
-    operatorsAndValues.resultPrevious = operatorsAndValues.resultCurrent;
-    operatorsAndValues.resultCurrent = 0;
+    calculator.resultPrevious = calculator.resultCurrent;
+    calculator.resultCurrent = 0;
 }
 
 function clearAll() {
@@ -373,17 +373,17 @@ function clearAll() {
     displayBottom.setAttribute('style', `font-size: 50px`);
     displayTop.textContent = '';
 
-    operatorsAndValues.displayBottomValueCurrent = 0;
-    operatorsAndValues.displayBottomValuePrevious = 0;
-    operatorsAndValues.displayTopValue = 0;
+    calculator.displayBottomValueCurrent = 0;
+    calculator.displayBottomValuePrevious = 0;
+    calculator.displayTopValue = 0;
 
-    operatorsAndValues.resultCurrent = 0;
-    operatorsAndValues.resultPrevious = 0;
+    calculator.resultCurrent = 0;
+    calculator.resultPrevious = 0;
 
-    operatorsAndValues.operatorCurrent = null;
-    operatorsAndValues.operatorPrevious = null;
+    calculator.operatorCurrent = null;
+    calculator.operatorPrevious = null;
 
-    operatorsAndValues.operatorSymbol = '';
+    calculator.operatorSymbol = '';
 }
 
 function clearEntry() {
@@ -394,7 +394,7 @@ function clearEntry() {
     };
     displayBottom.textContent = '0';
     displayBottom.setAttribute('style', `font-size: 50px`);
-    operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+    calculator.displayBottomValueCurrent = displayBottom.textContent;
 }
 
 function back() {
@@ -407,13 +407,13 @@ function back() {
     if (displayBottom.textContent.length === 1) {
         displayBottom.textContent = '0';
         displayBottom.setAttribute('style', `font-size: 50px`);
-        operatorsAndValues.displayBottomValueCurrent = displayBottom.textContent;
+        calculator.displayBottomValueCurrent = displayBottom.textContent;
         return;
     }
     displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);
     displayBottom.textContent = displayBottom.textContent.slice(0, -1);
     displayBottom.textContent = addThousandSeparators(displayBottom.textContent);
-    operatorsAndValues.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
+    calculator.displayBottomValueCurrent = removeThousandSeparators(displayBottom.textContent);
 }
 
 function addThousandSeparators(number) {
