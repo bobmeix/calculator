@@ -1,7 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne+Mono&display=swap');
+@font-face {
+    font-family: ShareTechMonoLocal;
+    src: url(./ShareTechMono-Regular.ttf);
+}
 
 * {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: ShareTechMonoLocal;
     box-sizing: border-box;
 }
 
