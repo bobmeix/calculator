@@ -136,7 +136,7 @@ function addKeyboardNumber(number) {
     if (displayBottom.textContent === '0' && getKeyboardNumberValue(number) !== '.') {
         displayBottom.textContent = getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '0';
     } else if (displayBottom.textContent !== '0' && getKeyboardNumberValue(number) !== '.') {
-        displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);           
+        displayBottom.textContent = removeThousandSeparators(displayBottom.textContent);
         displayBottom.textContent += getKeyboardNumberValue(number) ? getKeyboardNumberValue(number) : '';
         displayBottom.textContent = addThousandSeparators(displayBottom.textContent);
     } else if (displayBottom.textContent.includes(',')) {
@@ -220,13 +220,37 @@ function getKeyboardOperator(e) {
         case '+':
             calculator.operatorSymbol = '+';
             return calculator.add;
+        case 'a':
+            calculator.operatorSymbol = '+';
+            return calculator.add;
+        case 'A':
+            calculator.operatorSymbol = '+';
+            return calculator.add;
         case '-':
+            calculator.operatorSymbol = '-';
+            return calculator.subtract;
+        case 's':
+            calculator.operatorSymbol = '-';
+            return calculator.subtract;
+        case 'S':
             calculator.operatorSymbol = '-';
             return calculator.subtract;
         case '*':
             calculator.operatorSymbol = '×';
             return calculator.multiply;
+        case 'x':
+            calculator.operatorSymbol = '×';
+            return calculator.multiply;
+        case 'X':
+            calculator.operatorSymbol = '×';
+            return calculator.multiply;
         case '/':
+            calculator.operatorSymbol = '÷';
+            return calculator.divide;
+        case 'd':
+            calculator.operatorSymbol = '÷';
+            return calculator.divide;
+        case 'D':
             calculator.operatorSymbol = '÷';
             return calculator.divide;
         default:
@@ -291,17 +315,33 @@ function executeOperation(operator) {
 
 function executeKeyboardOperation(operator) {
     if (!(operator.key === '+' ||
+        operator.key === 'a' ||
+        operator.key === 'A' ||
         operator.key === '-' ||
+        operator.key === 's' ||
+        operator.key === 'S' ||
         operator.key === '*' ||
-        operator.key === '/') ||
+        operator.key === 'x' ||
+        operator.key === 'X' ||
+        operator.key === '/' ||
+        operator.key === 'd' ||
+        operator.key === 'D') ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
     if (operator.key === '+' ||
+        operator.key === 'a' ||
+        operator.key === 'A' ||
         operator.key === '-' ||
+        operator.key === 's' ||
+        operator.key === 'S' ||
         operator.key === '*' ||
-        operator.key === '/') {
+        operator.key === 'x' ||
+        operator.key === 'X' ||
+        operator.key === '/' ||
+        operator.key === 'd' ||
+        operator.key === 'D') {
 
         if (calculator.operatorCurrent) {
             calculateResult();
