@@ -102,6 +102,7 @@ function addMouseNumber(number) {
     if (displayBottom.textContent.length >= 34 ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
     displayBottom.textContent = addThousandSeparators(String(calculator.displayBottomValueCurrent));
@@ -128,6 +129,7 @@ function addKeyboardNumber(number) {
         number.key === ' ' ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN'
     ) return;
 
@@ -271,6 +273,7 @@ function executeOperation(operator) {
 
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
     if (operator.target.id === 'add' ||
@@ -333,6 +336,7 @@ function executeKeyboardOperation(operator) {
         operator.key === 'D') ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
     if (operator.key === '+' ||
@@ -368,6 +372,7 @@ function calculateResult() {
         !calculator.displayBottomValueCurrent ||
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN') return;
 
     if (calculator.operatorCurrent.name === 'divide' && calculator.displayBottomValueCurrent === '0') {
@@ -439,6 +444,7 @@ function clearAll() {
 function clearEntry() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN') {
         clearAll();
     };
@@ -450,6 +456,7 @@ function clearEntry() {
 function back() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN') {
         clearAll();
     };
