@@ -259,7 +259,7 @@ function getKeyboardOperator(e) {
 }
 
 function calculateOnEnter(e) {
-    if (e.key === 'Enter') calculateResult();
+    if (e.key === 'Enter' || e.key === '=') calculateResult();
 }
 
 function executeOperation(operator) {

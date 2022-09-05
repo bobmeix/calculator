@@ -15,6 +15,7 @@ Features:
 - decimal input is allowed
 - to delete inputs, there are: all clear, clear entry and backspace buttons with appropriate functions
 - the calculator has keyboard support for number inputs, decimal, basic operators, equal - on the numpad;
+    To calculate the result, press = or Enter;
     Basic operators have additional keyboard controls: + (a, A); - (s, S); * (x, X); / (d, D);
     Escape for all clear / Delete for clear entry / Backspace for deleting one character at a time
 - there is also edge case handling for division by 0 and Infinity: all the delete buttons act as "all clear"
