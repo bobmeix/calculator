@@ -314,7 +314,6 @@ function executeOperation(operator) {
 
     if (displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity') {
-        console.log('here');
         displayBottom.setAttribute('style', 'font-family: monospace');
     }
 }
@@ -395,7 +394,6 @@ function calculateResult() {
 
     if (displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity') {
-        console.log('here');
         displayBottom.setAttribute('style', 'font-family: monospace');
     }
 }
