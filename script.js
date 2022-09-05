@@ -311,6 +311,12 @@ function executeOperation(operator) {
 
     reduceDisplayBottomFontSize();
     reduceDisplayTopFontSize();
+
+    if (displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity') {
+        console.log('here');
+        displayBottom.setAttribute('style', 'font-family: monospace');
+    }
 }
 
 function executeKeyboardOperation(operator) {
@@ -386,6 +392,12 @@ function calculateResult() {
     updateCalculator();
     reduceDisplayBottomFontSize();
     reduceDisplayTopFontSize();
+
+    if (displayBottom.textContent === 'Infinity' ||
+        displayBottom.textContent === '-Infinity') {
+        console.log('here');
+        displayBottom.setAttribute('style', 'font-family: monospace');
+    }
 }
 
 function operate(operator, ...numbers) {
