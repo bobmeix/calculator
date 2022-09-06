@@ -22,3 +22,4 @@ Features:
     while other buttons are disabled
 - large numbers have Thousand separators (dot for Thousand; comma to indicate the decimal place )
     for easier readability
+- please keep in mind that the max value for exact integer calculations is: ±9.007.199.254.740.991 / between: -(2^53 – 1) and 2^53 – 1)
