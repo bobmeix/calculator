@@ -140,16 +140,7 @@ button:active {
     background-color: rgb(201, 201, 201);
 }
 
-#zero:hover,
-#one:hover,
-#two:hover,
-#three:hover,
-#four:hover,
-#five:hover,
-#six:hover,
-#seven:hover,
-#eight:hover,
-#nine:hover {
+.number:hover {
     font-size: 30px;
     background-color: rgb(235, 235, 235);
 }
@@ -175,16 +166,7 @@ button:active {
     background-color: rgb(180, 190, 180);
 }
 
-#zero:active,
-#one:active,
-#two:active,
-#three:active,
-#four:active,
-#five:active,
-#six:active,
-#seven:active,
-#eight:active,
-#nine:active {
+.number:active {
     font-size: 32.5px;
     background-color: rgb(220, 230, 220);
 }
