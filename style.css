@@ -40,7 +40,7 @@ button:active {
 
 .calculator {
     width: 380px;
-    height: 640px;
+    height: 642px;
     background-color: rgb(250, 250, 250);
 }
 
@@ -49,7 +49,7 @@ button:active {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 25%;
+    height: 22.2%;
     border: 2px solid rgb(190, 190, 190);
     background-color: rgb(190, 190, 190);
 }
