@@ -119,6 +119,13 @@ button:active {
     background-color: rgb(218, 218, 218);
 }
 
+#fahrenheit-celsius,
+#pound-kg,
+#foot-cm,
+#mile-km {
+    background-color: rgb(220, 230, 220);
+}
+
 #divide:hover,
 #multiply:hover,
 #subtract:hover,
