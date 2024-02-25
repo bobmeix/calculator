@@ -121,7 +121,7 @@ button:active {
 
 #fahrenheit-celsius,
 #pound-kg,
-#foot-cm,
+#inch-cm,
 #mile-km {
     background-color: rgb(220, 230, 220);
 }
@@ -149,7 +149,7 @@ button:active {
 
 #fahrenheit-celsius:hover,
 #pound-kg:hover,
-#foot-cm:hover,
+#inch-cm:hover,
 #mile-km:hover {
     font-size: 27px;
     background-color: rgb(180, 190, 180);
@@ -163,7 +163,7 @@ button:active {
 #divide:active,
 #multiply:active,
 #subtract:active,
-#add:active,
+#add:active,foot
 #back:active,
 #percent:active,
 #reverse-sign:active,
@@ -183,7 +183,7 @@ button:active {
 
 #fahrenheit-celsius:active,
 #pound-kg:active,
-#foot-cm:active,
+#inch-cm:active,
 #mile-km:active {
     font-size: 30px;
     background-color: rgb(140, 150, 140);
