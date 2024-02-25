@@ -63,7 +63,7 @@ const calculator = {
         return +number / 100;
     },
     convertFtoC(number) {
-        return (+number - 32) * 1.8;
+        return (+number - 32) / 1.8 ;
     },
     displayBottomValueCurrent: 0,
     displayBottomValuePrevious: 0,
@@ -217,6 +217,9 @@ function getMouseOperator(e) {
         case 'percent':
             calculator.operatorSymbol = '%';
             return calculator.calculatePercent;
+        case 'fahrenheit-celsius':
+            calculator.operatorSymbol = '°F';
+            return calculator.convertFtoC;
     }
 }
 
@@ -310,6 +313,17 @@ function executeOperation(operator) {
         displayTop.textContent = operator.target.id === 'percent' ?
             `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} =` :
             `${calculator.operatorSymbol} ${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} =`;
+        calculator.displayBottomValueCurrent = calculator.resultCurrent;
+
+        updateCalculator();
+    }
+
+    if (operator.target.id === 'fahrenheit-celsius') {
+        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        calculator.resultCurrent = operate(calculator.operatorCurrent,
+            calculator.displayBottomValueCurrent)
+        displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)));
+        displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} =`;
         calculator.displayBottomValueCurrent = calculator.resultCurrent;
 
         updateCalculator();
