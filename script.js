@@ -133,8 +133,7 @@ function addKeyboardNumber(number) {
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN'
-    ) return;
+        displayBottom.textContent === 'NaN') return;
 
     displayBottom.textContent = addThousandSeparators(String(calculator.displayBottomValueCurrent));
 
@@ -280,7 +279,8 @@ function executeOperation(operator) {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN') return;
+        displayBottom.textContent === 'NaN' ||
+        displayBottom.textContent.includes('C')) return;
 
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
@@ -319,13 +319,15 @@ function executeOperation(operator) {
     }
 
     if (operator.target.id === 'fahrenheit-celsius') {
+        if (displayBottom.textContent.includes('C')) return;
         calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
-        displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)));
+        displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} °C`;
         displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} =`;
         calculator.displayBottomValueCurrent = calculator.resultCurrent;
-
+        
+        reduceDisplayBottomFontSize();
         updateCalculator();
     }
 
@@ -354,7 +356,8 @@ function executeKeyboardOperation(operator) {
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN') return;
+        displayBottom.textContent === 'NaN' ||
+        displayBottom.textContent.includes('C')) return;
 
     if (operator.key === '+' ||
         operator.key === 'a' ||
@@ -390,7 +393,8 @@ function calculateResult() {
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN') return;
+        displayBottom.textContent === 'NaN' ||
+        displayBottom.textContent.includes('C')) return;
 
     if (calculator.operatorCurrent.name === 'divide' && calculator.displayBottomValueCurrent === '0') {
         displayBottom.textContent = 'Division by zero, not cool!';
@@ -462,7 +466,8 @@ function clearEntry() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN') {
+        displayBottom.textContent === 'NaN' ||
+        displayBottom.textContent.includes('C')) {
         clearAll();
     };
     displayBottom.textContent = '0';
@@ -474,7 +479,8 @@ function back() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN') {
+        displayBottom.textContent === 'NaN' ||
+        displayBottom.textContent.includes('C')) {
         clearAll();
     };
     reduceDisplayBottomFontSize();
