@@ -65,9 +65,6 @@ const calculator = {
     convertFtoC(number) {
         return (+number - 32) * 1.8;
     },
-    convertCtoF(number) {
-        return (+number * 1.8) + 32;
-    },
     displayBottomValueCurrent: 0,
     displayBottomValuePrevious: 0,
     displayTopValue: 0,
