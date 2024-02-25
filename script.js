@@ -65,6 +65,9 @@ const calculator = {
     convertFtoC(number) {
         return (+number - 32) / 1.8 ;
     },
+    convertLBtoKG(number) {
+        return (+number * 0.45359237);
+    },
     displayBottomValueCurrent: 0,
     displayBottomValuePrevious: 0,
     displayTopValue: 0,
@@ -219,6 +222,9 @@ function getMouseOperator(e) {
         case 'fahrenheit-celsius':
             calculator.operatorSymbol = '°F';
             return calculator.convertFtoC;
+        case 'pound-kg':
+            calculator.operatorSymbol = 'lbs';
+            return calculator.convertLBtoKG;
     }
 }
 
@@ -280,7 +286,8 @@ function executeOperation(operator) {
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C')) return;
+        displayBottom.textContent.includes('C') ||
+        displayBottom.textContent.includes('kg')) return;
 
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
@@ -319,11 +326,26 @@ function executeOperation(operator) {
     }
 
     if (operator.target.id === 'fahrenheit-celsius') {
-        if (displayBottom.textContent.includes('C')) return;
+        if (displayBottom.textContent.includes('C') ||
+            displayBottom.textContent.includes('kg')) return;
         calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
         displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} °C`;
+        displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} =`;
+        calculator.displayBottomValueCurrent = calculator.resultCurrent;
+        
+        reduceDisplayBottomFontSize();
+        updateCalculator();
+    }
+
+    if (operator.target.id === 'pound-kg') {
+        if (displayBottom.textContent.includes('C') ||
+            displayBottom.textContent.includes('kg')) return;
+        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        calculator.resultCurrent = operate(calculator.operatorCurrent,
+            calculator.displayBottomValueCurrent)
+        displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} kg`;
         displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} =`;
         calculator.displayBottomValueCurrent = calculator.resultCurrent;
         
@@ -357,7 +379,8 @@ function executeKeyboardOperation(operator) {
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C')) return;
+        displayBottom.textContent.includes('C') ||
+        displayBottom.textContent.includes('kg')) return;
 
     if (operator.key === '+' ||
         operator.key === 'a' ||
@@ -394,7 +417,8 @@ function calculateResult() {
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C')) return;
+        displayBottom.textContent.includes('C') ||
+        displayBottom.textContent.includes('kg')) return;
 
     if (calculator.operatorCurrent.name === 'divide' && calculator.displayBottomValueCurrent === '0') {
         displayBottom.textContent = 'Division by zero, not cool!';
@@ -467,7 +491,8 @@ function clearEntry() {
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C')) {
+        displayBottom.textContent.includes('C') ||
+        displayBottom.textContent.includes('kg')) {
         clearAll();
     };
     displayBottom.textContent = '0';
@@ -480,7 +505,8 @@ function back() {
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
         displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C')) {
+        displayBottom.textContent.includes('C') ||
+        displayBottom.textContent.includes('kg')) {
         clearAll();
     };
     reduceDisplayBottomFontSize();
