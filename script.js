@@ -311,7 +311,9 @@ function executeOperation(operator) {
         operator.target.id === 'radicand-x' ||
         operator.target.id === 'exponentiate' ||
         operator.target.id === 'exponent-n') {
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
 
         displayTop.textContent = operator.target.id === 'calculate-nth-root' ||
             operator.target.id === 'degree-n' ||
@@ -326,7 +328,11 @@ function executeOperation(operator) {
         operator.target.id === 'exponent-X' ||
         operator.target.id === 'reverse-sign' ||
         operator.target.id === 'percent') {
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        
+        
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
         displayBottom.textContent = addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)));
@@ -443,7 +449,9 @@ function executeKeyboardOperation(operator) {
         }
 
         calculator.operatorCurrent = getKeyboardOperator(operator);
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
         displayTop.textContent = `${addThousandSeparators(replaceDotWithComma(calculator.displayBottomValueCurrent))} ${calculator.operatorSymbol} `;
 
         updateDisplayBottomValue();
