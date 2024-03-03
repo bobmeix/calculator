@@ -423,11 +423,7 @@ function executeKeyboardOperation(operator) {
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C') ||
-        displayBottom.textContent.includes('kg') ||
-        displayBottom.textContent.includes('cm') ||
-        displayBottom.textContent.includes('km')) return;
+        displayBottom.textContent === 'NaN') return;
 
     if (operator.key === '+' ||
         operator.key === 'a' ||
@@ -463,11 +459,7 @@ function calculateResult() {
         displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C') ||
-        displayBottom.textContent.includes('kg') ||
-        displayBottom.textContent.includes('cm') ||
-        displayBottom.textContent.includes('km')) return;
+        displayBottom.textContent === 'NaN') return;
 
     if (calculator.operatorCurrent.name === 'divide' && calculator.displayBottomValueCurrent === '0') {
         displayBottom.textContent = 'Division by zero, not cool!';
@@ -539,11 +531,7 @@ function clearEntry() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C') ||
-        displayBottom.textContent.includes('kg') ||
-        displayBottom.textContent.includes('cm') ||
-        displayBottom.textContent.includes('km')) {
+        displayBottom.textContent === 'NaN') {
         clearAll();
     };
     displayBottom.textContent = '0';
@@ -555,11 +543,7 @@ function back() {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C') ||
-        displayBottom.textContent.includes('kg') ||
-        displayBottom.textContent.includes('cm') ||
-        displayBottom.textContent.includes('km')) {
+        displayBottom.textContent === 'NaN') {
         clearAll();
     };
     reduceDisplayBottomFontSize();
