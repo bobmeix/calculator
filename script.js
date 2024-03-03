@@ -20,6 +20,8 @@ operatorButtons.forEach(operatorButton => {
 const equalButton = document.querySelector('[data-equal]');
 equalButton.addEventListener('mousedown', calculateResult);
 
+const letters = /[a-zA-Z]/;
+
 const calculator = {
     add(...numbers) {
         let result = 0;
@@ -298,11 +300,7 @@ function executeOperation(operator) {
     if (displayBottom.textContent === 'Division by zero, not cool!' ||
         displayBottom.textContent === 'Infinity' ||
         displayBottom.textContent === '-Infinity' ||
-        displayBottom.textContent === 'NaN' ||
-        displayBottom.textContent.includes('C') ||
-        displayBottom.textContent.includes('kg') ||
-        displayBottom.textContent.includes('cm') ||
-        displayBottom.textContent.includes('km')) return;
+        displayBottom.textContent === 'NaN') return;
 
     if (operator.target.id === 'add' ||
         operator.target.id === 'subtract' ||
@@ -341,11 +339,10 @@ function executeOperation(operator) {
     }
 
     if (operator.target.id === 'fahrenheit-celsius') {
-        if (displayBottom.textContent.includes('C') ||
-            displayBottom.textContent.includes('kg') ||
-            displayBottom.textContent.includes('cm') ||
-            displayBottom.textContent.includes('km')) return;
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
         displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} °C`;
@@ -357,11 +354,10 @@ function executeOperation(operator) {
     }
 
     if (operator.target.id === 'pound-kg') {
-        if (displayBottom.textContent.includes('C') ||
-            displayBottom.textContent.includes('kg') ||
-            displayBottom.textContent.includes('cm') ||
-            displayBottom.textContent.includes('km')) return;
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
         displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} kg`;
@@ -373,11 +369,10 @@ function executeOperation(operator) {
     }
 
     if (operator.target.id === 'inch-cm') {
-        if (displayBottom.textContent.includes('C') ||
-            displayBottom.textContent.includes('kg') ||
-            displayBottom.textContent.includes('cm') ||
-            displayBottom.textContent.includes('km')) return;
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
         displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} cm`;
@@ -389,11 +384,10 @@ function executeOperation(operator) {
     }
     
     if (operator.target.id === 'mile-km') {
-        if (displayBottom.textContent.includes('C') ||
-            displayBottom.textContent.includes('kg') ||
-            displayBottom.textContent.includes('cm') ||
-            displayBottom.textContent.includes('km')) return;
-        calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+        displayBottom.textContent.search(letters) !== -1 ? 
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent.slice(0, -3))) :
+            calculator.displayBottomValueCurrent = replaceCommaWithDot(removeThousandSeparators(displayBottom.textContent));
+
         calculator.resultCurrent = operate(calculator.operatorCurrent,
             calculator.displayBottomValueCurrent)
         displayBottom.textContent = `${addThousandSeparators(replaceDotWithComma(String(calculator.resultCurrent)))} km`;
